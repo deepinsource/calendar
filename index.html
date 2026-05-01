@@ -9,18 +9,12 @@
 <body>
     <div class="calendar-container">
         <div class="header">
-            <button id="prevYear" class="nav-btn">&lt;&lt;</button>
-            <button id="prevMonth" class="nav-btn">&lt;</button>
+            <button id="prevYear" class="nav-btn">&lt;</button>
             <h1 id="currentDate"></h1>
-            <button id="nextMonth" class="nav-btn">&gt;</button>
-            <button id="nextYear" class="nav-btn">&gt;&gt;</button>
-        </div>
-        <div class="view-switcher">
-            <button id="monthView" class="view-btn active">月视图</button>
-            <button id="yearView" class="view-btn">年视图</button>
+            <button id="nextYear" class="nav-btn">&gt;</button>
+            <button id="taskBtn" class="task-btn">任务</button>
         </div>
         <div class="calendar-body">
-            <div class="days" id="days"></div>
             <div class="months" id="months"></div>
         </div>
     </div>
@@ -29,6 +23,33 @@
         <div class="emoji-popup-content">
             <div class="emoji-grid" id="emojiGrid"></div>
             <button class="close-btn" id="closeEmojiPopup">&times;</button>
+        </div>
+    </div>
+
+    <div class="task-popup" id="taskPopup">
+        <div class="task-popup-content">
+            <div class="task-popup-header">
+                <h2>任务列表</h2>
+                <button class="close-btn" id="closeTaskPopup">&times;</button>
+            </div>
+            <div class="task-list" id="taskList"></div>
+            <button id="addTaskBtn" class="add-task-btn">+ 新建任务</button>
+        </div>
+    </div>
+
+    <div class="task-edit-popup" id="taskEditPopup">
+        <div class="task-edit-content">
+            <div class="task-edit-header">
+                <h2 id="taskEditTitle">新建任务</h2>
+                <button class="close-btn" id="closeTaskEdit">&times;</button>
+            </div>
+            <div class="task-edit-form">
+                <label>任务名称</label>
+                <input type="text" id="taskNameInput" placeholder="输入任务名称">
+                <label>背景颜色</label>
+                <input type="color" id="taskColorInput" value="#4b9cd3">
+                <button id="saveTaskBtn" class="save-task-btn">保存</button>
+            </div>
         </div>
     </div>
 
