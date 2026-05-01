@@ -15,7 +15,10 @@ taskEditTitle = document.querySelector("#taskEditTitle"),
 closeTaskEdit = document.querySelector("#closeTaskEdit"),
 taskNameInput = document.querySelector("#taskNameInput"),
 taskColorInput = document.querySelector("#taskColorInput"),
-saveTaskBtn = document.querySelector("#saveTaskBtn");
+saveTaskBtn = document.querySelector("#saveTaskBtn"),
+exportBtn = document.querySelector("#exportBtn"),
+importBtn = document.querySelector("#importBtn"),
+importFile = document.querySelector("#importFile");
 
 let date = new Date(),
 currYear = date.getFullYear(),
@@ -256,4 +259,49 @@ saveTaskBtn.addEventListener("click", () => {
     taskEditPopup.classList.remove("show");
     renderTaskList();
     renderYearView();
+});
+
+exportBtn.addEventListener("click", () => {
+    const data = {
+        calendarTasks: loadTasks(),
+        currentTaskId: localStorage.getItem("currentTaskId") || loadTasks()[0].id
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `calendar_backup_${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
+importBtn.addEventListener("click", () => {
+    importFile.click();
+});
+
+importFile.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+        try {
+            const data = JSON.parse(ev.target.result);
+            if (data.calendarTasks && Array.isArray(data.calendarTasks)) {
+                saveTasks(data.calendarTasks);
+                if (data.currentTaskId) {
+                    localStorage.setItem("currentTaskId", data.currentTaskId);
+                    currentTaskId = data.currentTaskId;
+                }
+                initCurrentTask();
+                renderYearView();
+                alert("导入成功");
+            } else {
+                alert("文件格式不正确");
+            }
+        } catch {
+            alert("文件解析失败");
+        }
+    };
+    reader.readAsText(file);
+    importFile.value = "";
 });
