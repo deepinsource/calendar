@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日历</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="calendar-container">
+        <div class="header">
+            <button id="prevYear" class="nav-btn">&lt;&lt;</button>
+            <button id="prevMonth" class="nav-btn">&lt;</button>
+            <h1 id="currentDate"></h1>
+            <button id="nextMonth" class="nav-btn">&gt;</button>
+            <button id="nextYear" class="nav-btn">&gt;&gt;</button>
+        </div>
+        <div class="view-switcher">
+            <button id="monthView" class="view-btn active">月视图</button>
+            <button id="yearView" class="view-btn">年视图</button>
+        </div>
+        <div class="calendar-body">
+            <div class="days" id="days"></div>
+            <div class="months" id="months"></div>
+        </div>
+    </div>
+
+    <div class="emoji-popup" id="emojiPopup">
+        <div class="emoji-popup-content">
+            <div class="emoji-grid" id="emojiGrid"></div>
+            <button class="close-btn" id="closeEmojiPopup">&times;</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

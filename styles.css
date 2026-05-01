@@ -1,0 +1,431 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+.calendar-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    padding: 30px;
+    width: 100%;
+    margin: 10px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header h1 {
+    font-size: 1.45rem;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    color: #333;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0 20px;
+    border-radius: 10px;
+}
+
+.nav-btn {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #676767;
+    margin: 0 6px;
+    transition: all 0.3s;
+}
+
+.nav-btn:active {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+}
+
+.view-switcher {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 10px;
+}
+
+.view-btn {
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    outline: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    color: #676767;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.view-btn:hover {
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+}
+
+.view-btn.active {
+    background: #4b9cd3;
+    color: white;
+}
+
+.calendar-body {
+    padding: 20px;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.days div {
+    position: relative;
+    cursor: pointer;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: #333;
+    background: rgba(255, 255, 255, 0.8);
+    user-select: none;
+    transition: all 0.3s;
+    border-radius: 10px;
+}
+
+.days div:hover:not(.empty) {
+    background: white;
+    color: #333;
+}
+
+.days div.active,
+.days div:hover.active {
+    color: #fff;
+    background: #4b9cd3;
+}
+
+
+
+.days div.empty {
+    background: transparent;
+    cursor: default;
+}
+
+.mini-days span.empty {
+    background: transparent;
+    cursor: default;
+}
+
+.months {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.month-card {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    transition: all 0.3s;
+    padding: 10px;
+}
+
+.month-card:hover {
+    background: white;
+    transform: scale(1.02);
+}
+
+.month-title {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.mini-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.mini-days span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: #333;
+    aspect-ratio: 1/1;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.mini-days span:hover {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.mini-days span.active {
+    color: #fff;
+    background: #4b9cd3;
+}
+
+
+.months div.curr-month {
+    color: #fff;
+    background: #4b9cd3;
+}
+
+.months div:hover.curr-month {
+    background: #3a8bc4;
+}
+
+.days div.has-emoji {
+    font-size: 1.6rem;
+}
+
+.emoji-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.emoji-popup.show {
+    display: flex;
+}
+
+.emoji-popup-content {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.emoji-grid span {
+    cursor: pointer;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 10px;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.emoji-grid span:hover {
+    background: rgba(75, 156, 211, 0.2);
+    transform: scale(1.2);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #676767;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.close-btn:hover {
+    color: #333;
+    transform: rotate(90deg);
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 480px) {
+    .calendar-container {
+        padding: 15px;
+        margin: 5px;
+        border-radius: 15px;
+    }
+
+    .header h1 {
+        font-size: 1rem;
+        padding: 0 10px;
+        letter-spacing: 0.5px;
+    }
+
+    .nav-btn {
+        width: 32px;
+        height: 32px;
+        margin: 0 3px;
+        font-size: 0.8rem;
+    }
+
+    .view-switcher {
+        margin: 12px 0;
+        gap: 6px;
+    }
+
+    .view-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    .calendar-body {
+        padding: 10px;
+    }
+
+    .weekdays div {
+        font-size: 1.1rem;
+    }
+
+    .days {
+        gap: 3px;
+        margin-top: 10px;
+    }
+
+    .days div {
+        font-size: 1.1rem;
+        border-radius: 6px;
+    }
+
+    .days div.has-emoji {
+        font-size: 1.3rem;
+    }
+
+    .months {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+        margin-top: 10px;
+    }
+
+    .month-card {
+        padding: 6px;
+    }
+
+    .month-title {
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+        letter-spacing: 0.5px;
+    }
+
+    .mini-weekdays span {
+        font-size: 0.55rem;
+    }
+
+    .mini-days span {
+        font-size: 0.65rem;
+    }
+
+    .emoji-popup-content {
+        padding: 15px;
+        width: 95%;
+        max-width: none;
+    }
+
+    .emoji-grid {
+        grid-template-columns: repeat(8, 1fr);
+        gap: 4px;
+        max-height: 250px;
+    }
+
+    .emoji-grid span {
+        font-size: 1.4rem;
+        padding: 5px;
+    }
+
+    .close-btn {
+        font-size: 1.6rem;
+        top: 5px;
+        right: 10px;
+    }
+}
+
+@media (max-width: 360px) {
+    .calendar-container {
+        padding: 10px;
+    }
+
+    .header h1 {
+        font-size: 0.85rem;
+        padding: 0 6px;
+    }
+
+    .nav-btn {
+        width: 28px;
+        height: 28px;
+        margin: 0 2px;
+    }
+
+    .weekdays div {
+        font-size: 0.9rem;
+    }
+
+    .days div {
+        font-size: 0.95rem;
+        border-radius: 4px;
+    }
+
+    .days div.has-emoji {
+        font-size: 1.1rem;
+    }
+
+    .months {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .mini-weekdays span {
+        font-size: 0.6rem;
+    }
+
+    .mini-days span {
+        font-size: 0.7rem;
+    }
+}
