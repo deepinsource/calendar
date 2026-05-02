@@ -25,7 +25,7 @@ currYear = date.getFullYear(),
 selectedDayElement = null,
 currentTaskId = null,
 editingTaskId = null,
-statsMonthOpen = null;
+statsMonthsOpen = new Set();
 
 const months = ["一月", "二月", "三月", "四月", "五月", "六月", "七月",
               "八月", "九月", "十月", "十一月", "十二月"];
@@ -117,7 +117,7 @@ const renderMonthStats = (i) => {
     let successPct = occupied ? (success / occupied * 100).toFixed(1) : "0";
     let avgScore = occupied ? (scoreSum / occupied).toFixed(1) : "0";
     return `
-        <div class="stats-row"><span class="stats-label">工作天数</span><span class="stats-value">${occupied}/${lastDate}</span><span class="stats-pct">${workingPct}%</span></div>
+        <div class="stats-row"><span class="stats-label">尝试天数</span><span class="stats-value">${occupied}/${lastDate}</span><span class="stats-pct">${workingPct}%</span></div>
         <div class="stats-bar"><div class="stats-bar-fill" style="width:${workingPct}%;background:#4b9cd3;"></div></div>
         <div class="stats-row"><span class="stats-label">成功天数</span><span class="stats-value">${success}/${occupied}</span><span class="stats-pct">${successPct}%</span></div>
         <div class="stats-bar"><div class="stats-bar-fill" style="width:${successPct}%;background:#2ecc71;"></div></div>
@@ -130,7 +130,7 @@ const renderYearView = () => {
     const task = getCurrentTask();
     let monthTag = "";
     for (let i = 0; i < 12; i++) {
-        let content = (statsMonthOpen === i)
+        let content = statsMonthsOpen.has(i)
             ? `<div class="mini-stats">${renderMonthStats(i)}</div>`
             : `<div class="mini-days">${renderMonthDays(i)}</div>`;
 
@@ -182,7 +182,11 @@ emojiPopup.addEventListener("click", (e) => {
 monthsTag.addEventListener("click", (e) => {
     if (e.target.classList.contains("month-title")) {
         const monthIdx = parseInt(e.target.dataset.month);
-        statsMonthOpen = (statsMonthOpen === monthIdx) ? null : monthIdx;
+        if (statsMonthsOpen.has(monthIdx)) {
+            statsMonthsOpen.delete(monthIdx);
+        } else {
+            statsMonthsOpen.add(monthIdx);
+        }
         renderYearView();
         return;
     }
@@ -192,15 +196,24 @@ monthsTag.addEventListener("click", (e) => {
     }
 });
 
+currentDate.addEventListener("click", () => {
+    if (statsMonthsOpen.size === 12) {
+        statsMonthsOpen.clear();
+    } else {
+        for (let i = 0; i < 12; i++) statsMonthsOpen.add(i);
+    }
+    renderYearView();
+});
+
 prevYearBtn.addEventListener("click", () => {
     currYear -= 1;
-    statsMonthOpen = null;
+    statsMonthsOpen.clear();
     renderYearView();
 });
 
 nextYearBtn.addEventListener("click", () => {
     currYear += 1;
-    statsMonthOpen = null;
+    statsMonthsOpen.clear();
     renderYearView();
 });
 
