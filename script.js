@@ -60,18 +60,18 @@ const initCurrentTask = () => {
     }
 };
 
-const getEmoji = (year, month, day) => {
+const getEmojiIndex = (year, month, day) => {
     const task = getCurrentTask();
     const key = getDateKey(year, month, day);
-    return task.emojis[key] || null;
+    return task.emojis[key] || 0;
 };
 
-const saveEmoji = (year, month, day, emoji) => {
+const saveEmojiIndex = (year, month, day, index) => {
     const tasks = loadTasks();
     const task = tasks.find(t => t.id === currentTaskId);
     if (!task) return;
     const key = getDateKey(year, month, day);
-    task.emojis[key] = emoji;
+    task.emojis[key] = index;
     saveTasks(tasks);
 };
 
@@ -92,9 +92,9 @@ const renderYearView = () => {
         for (let j = 1; j <= lastDateofMonth; j++) {
             let isToday = j === date.getDate() && i === new Date().getMonth()
                          && currYear === new Date().getFullYear() ? "active" : "";
-            let emoji = getEmoji(currYear, i, j);
-            let emojiClass = emoji ? "has-emoji" : "";
-            dayTag += `<span class="${isToday} ${emojiClass}" data-month="${i}" data-day="${j}">${emoji || j}</span>`;
+            let emojiIdx = getEmojiIndex(currYear, i, j);
+            let emojiClass = emojiIdx ? "has-emoji" : "";
+            dayTag += `<span class="${isToday} ${emojiClass}" data-month="${i}" data-day="${j}">${emojiIdx ? emojis[emojiIdx - 1] : j}</span>`;
         }
         for (let j = lastDayofMonth; j < 7; j++) {
             if(lastDayofMonth === 0) break;
@@ -115,8 +115,8 @@ renderYearView();
 
 const renderEmojiGrid = () => {
     let emojiTag = "";
-    for (let emoji of emojis) {
-        emojiTag += `<span>${emoji}</span>`;
+    for (let i = 0; i < emojis.length; i++) {
+        emojiTag += `<span data-index="${i + 1}">${emojis[i]}</span>`;
     }
     emojiGrid.innerHTML = emojiTag;
 };
@@ -125,11 +125,11 @@ renderEmojiGrid();
 
 emojiGrid.addEventListener("click", (e) => {
     if (e.target.tagName === "SPAN") {
-        let emoji = e.target.innerText;
+        let index = parseInt(e.target.dataset.index);
         let month = parseInt(selectedDayElement.dataset.month);
         let day = parseInt(selectedDayElement.dataset.day);
-        if (!isNaN(day)) {
-            saveEmoji(currYear, month, day, emoji);
+        if (!isNaN(day) && !isNaN(index)) {
+            saveEmojiIndex(currYear, month, day, index);
             renderYearView();
         }
         closeEmojiPopupFn();
