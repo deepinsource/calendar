@@ -18,17 +18,14 @@ taskColorInput = document.querySelector("#taskColorInput"),
 saveTaskBtn = document.querySelector("#saveTaskBtn"),
 exportBtn = document.querySelector("#exportBtn"),
 importBtn = document.querySelector("#importBtn"),
-importFile = document.querySelector("#importFile"),
-statsPopup = document.querySelector("#statsPopup"),
-closeStatsPopup = document.querySelector("#closeStatsPopup"),
-statsTitle = document.querySelector("#statsTitle"),
-statsBody = document.querySelector("#statsBody");
+importFile = document.querySelector("#importFile");
 
 let date = new Date(),
 currYear = date.getFullYear(),
 selectedDayElement = null,
 currentTaskId = null,
-editingTaskId = null;
+editingTaskId = null,
+statsMonthOpen = null;
 
 const months = ["一月", "二月", "三月", "四月", "五月", "六月", "七月",
               "八月", "九月", "十月", "十一月", "十二月"];
@@ -79,35 +76,67 @@ const saveEmojiIndex = (year, month, day, index) => {
     saveTasks(tasks);
 };
 
+const renderMonthDays = (i) => {
+    let firstDayofMonth = new Date(currYear, i, 1).getDay();
+    let lastDateofMonth = new Date(currYear, i + 1, 0).getDate();
+    let lastDayofMonth = new Date(currYear, i, lastDateofMonth).getDay();
+    firstDayofMonth = firstDayofMonth === 0 ? 7 : firstDayofMonth;
+
+    let dayTag = "";
+    for (let j = 1; j < firstDayofMonth; j++) {
+        dayTag += `<span class="empty"></span>`;
+    }
+    for (let j = 1; j <= lastDateofMonth; j++) {
+        let isToday = j === date.getDate() && i === new Date().getMonth()
+                     && currYear === new Date().getFullYear() ? "active" : "";
+        let emojiIdx = getEmojiIndex(currYear, i, j);
+        let emojiClass = emojiIdx ? "has-emoji" : "";
+        dayTag += `<span class="${isToday} ${emojiClass}" data-month="${i}" data-day="${j}">${emojiIdx ? emojis[emojiIdx - 1] : j}</span>`;
+    }
+    for (let j = lastDayofMonth; j < 7; j++) {
+        if(lastDayofMonth === 0) break;
+        dayTag += `<span class="empty"></span>`;
+    }
+    return dayTag;
+};
+
+const scoreMap = {1:100, 2:87.5, 3:75, 4:62.5, 5:50, 6:37.5, 7:25, 8:12.5};
+
+const renderMonthStats = (i) => {
+    const lastDate = new Date(currYear, i + 1, 0).getDate();
+    let occupied = 0, success = 0, scoreSum = 0;
+    for (let d = 1; d <= lastDate; d++) {
+        let idx = getEmojiIndex(currYear, i, d);
+        if (idx > 0) {
+            occupied++;
+            scoreSum += scoreMap[idx] || 0;
+            if (idx <= 4) success++;
+        }
+    }
+    let workingPct = lastDate ? (occupied / lastDate * 100).toFixed(1) : "0";
+    let successPct = occupied ? (success / occupied * 100).toFixed(1) : "0";
+    let avgScore = occupied ? (scoreSum / occupied).toFixed(1) : "0";
+    return `
+        <div class="stats-row"><span class="stats-label">工作天数</span><span class="stats-value">${occupied}/${lastDate}</span><span class="stats-pct">${workingPct}%</span></div>
+        <div class="stats-bar"><div class="stats-bar-fill" style="width:${workingPct}%;background:#4b9cd3;"></div></div>
+        <div class="stats-row"><span class="stats-label">成功天数</span><span class="stats-value">${success}/${occupied}</span><span class="stats-pct">${successPct}%</span></div>
+        <div class="stats-bar"><div class="stats-bar-fill" style="width:${successPct}%;background:#2ecc71;"></div></div>
+        <div class="stats-row"><span class="stats-label">平均得分</span><span class="stats-value">${avgScore}</span><span class="stats-pct">${avgScore}</span></div>
+        <div class="stats-bar"><div class="stats-bar-fill" style="width:${avgScore}%;background:#e67e22;"></div></div>
+    `;
+};
+
 const renderYearView = () => {
     const task = getCurrentTask();
     let monthTag = "";
     for (let i = 0; i < 12; i++) {
-        let firstDayofMonth = new Date(currYear, i, 1).getDay();
-        let lastDateofMonth = new Date(currYear, i + 1, 0).getDate();
-        let lastDayofMonth = new Date(currYear, i, lastDateofMonth).getDay();
-
-        firstDayofMonth = firstDayofMonth === 0 ? 7 : firstDayofMonth;
-
-        let dayTag = "";
-        for (let j = 1; j < firstDayofMonth; j++) {
-            dayTag += `<span class="empty"></span>`;
-        }
-        for (let j = 1; j <= lastDateofMonth; j++) {
-            let isToday = j === date.getDate() && i === new Date().getMonth()
-                         && currYear === new Date().getFullYear() ? "active" : "";
-            let emojiIdx = getEmojiIndex(currYear, i, j);
-            let emojiClass = emojiIdx ? "has-emoji" : "";
-            dayTag += `<span class="${isToday} ${emojiClass}" data-month="${i}" data-day="${j}">${emojiIdx ? emojis[emojiIdx - 1] : j}</span>`;
-        }
-        for (let j = lastDayofMonth; j < 7; j++) {
-            if(lastDayofMonth === 0) break;
-            dayTag += `<span class="empty"></span>`;
-        }
+        let content = (statsMonthOpen === i)
+            ? `<div class="mini-stats">${renderMonthStats(i)}</div>`
+            : `<div class="mini-days">${renderMonthDays(i)}</div>`;
 
         monthTag += `<div class="month-card" data-month="${i}">
             <div class="month-title" data-month="${i}" style="background:${task.color};color:#fff;border-radius:6px;padding:2px 0;cursor:pointer;">${months[i]}</div>
-            <div class="mini-days">${dayTag}</div>
+            ${content}
         </div>`;
     }
     currentDate.innerText = `${currYear} - ${task.name}`;
@@ -153,7 +182,8 @@ emojiPopup.addEventListener("click", (e) => {
 monthsTag.addEventListener("click", (e) => {
     if (e.target.classList.contains("month-title")) {
         const monthIdx = parseInt(e.target.dataset.month);
-        if (!isNaN(monthIdx)) showMonthStats(monthIdx);
+        statsMonthOpen = (statsMonthOpen === monthIdx) ? null : monthIdx;
+        renderYearView();
         return;
     }
     if (e.target.tagName === "SPAN" && !e.target.classList.contains("empty") && e.target.dataset.day) {
@@ -164,11 +194,13 @@ monthsTag.addEventListener("click", (e) => {
 
 prevYearBtn.addEventListener("click", () => {
     currYear -= 1;
+    statsMonthOpen = null;
     renderYearView();
 });
 
 nextYearBtn.addEventListener("click", () => {
     currYear += 1;
+    statsMonthOpen = null;
     renderYearView();
 });
 
@@ -313,41 +345,4 @@ importFile.addEventListener("change", (e) => {
     };
     reader.readAsText(file);
     importFile.value = "";
-});
-
-const scoreMap = {1:100, 2:87.5, 3:75, 4:62.5, 5:50, 6:37.5, 7:25, 8:12.5};
-
-const showMonthStats = (monthIdx) => {
-    const lastDate = new Date(currYear, monthIdx + 1, 0).getDate();
-    let occupied = 0, success = 0, scoreSum = 0;
-    for (let d = 1; d <= lastDate; d++) {
-        let idx = getEmojiIndex(currYear, monthIdx, d);
-        if (idx > 0) {
-            occupied++;
-            scoreSum += scoreMap[idx] || 0;
-            if (idx <= 4) success++;
-        }
-    }
-    let workingPct = lastDate ? (occupied / lastDate * 100).toFixed(1) : "0";
-    let successPct = occupied ? (success / occupied * 100).toFixed(1) : "0";
-    let avgScore = occupied ? (scoreSum / occupied).toFixed(1) : "0";
-
-    statsTitle.innerText = `${months[monthIdx]} ${currYear} 统计`;
-    statsBody.innerHTML = `
-        <div class="stats-row"><span class="stats-label">工作天数</span><span class="stats-value">${occupied} / ${lastDate}</span><span class="stats-pct">${workingPct}%</span></div>
-        <div class="stats-bar"><div class="stats-bar-fill" style="width:${workingPct}%;background:#4b9cd3;"></div></div>
-        <div class="stats-row"><span class="stats-label">成功天数</span><span class="stats-value">${success} / ${occupied}</span><span class="stats-pct">${successPct}%</span></div>
-        <div class="stats-bar"><div class="stats-bar-fill" style="width:${successPct}%;background:#2ecc71;"></div></div>
-        <div class="stats-row"><span class="stats-label">平均得分</span><span class="stats-value">${avgScore}</span><span class="stats-pct">${avgScore}</span></div>
-        <div class="stats-bar"><div class="stats-bar-fill" style="width:${avgScore}%;background:#e67e22;"></div></div>
-    `;
-    statsPopup.classList.add("show");
-};
-
-closeStatsPopup.addEventListener("click", () => {
-    statsPopup.classList.remove("show");
-});
-
-statsPopup.addEventListener("click", (e) => {
-    if (e.target === statsPopup) statsPopup.classList.remove("show");
 });
