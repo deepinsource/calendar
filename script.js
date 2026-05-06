@@ -74,13 +74,9 @@ const saveEmojiIndex = (year, month, day, index) => {
     const task = tasks.find(t => t.id === currentTaskId);
     if (!task) return;
     const key = getDateKey(year, month, day);
-    if (task.emojis[key] === index) {
-        delete task.emojis[key];
-    } else {
-        task.emojis[key] = index;
-        task.lastEditYear = year;
-        task.lastEditMonth = month;
-    }
+    task.emojis[key] = index;
+    task.lastEditYear = year;
+    task.lastEditMonth = month;
     saveTasks(tasks);
 };
 
@@ -213,8 +209,12 @@ emojiGrid.addEventListener("click", (e) => {
     if (e.target.tagName === "SPAN") {
         let index = parseInt(e.target.dataset.index);
         if (!isNaN(index)) {
-            selectedEmojiIndex = index;
-            renderEmojiGrid(index);
+            if (selectedEmojiIndex === index) {
+                selectedEmojiIndex = 0;
+            } else {
+                selectedEmojiIndex = index;
+            }
+            renderEmojiGrid(selectedEmojiIndex);
         }
     }
 });
@@ -231,8 +231,7 @@ const saveEmojiAndComment = () => {
     const day = parseInt(selectedDayElement.dataset.day);
     if (isNaN(day)) return;
     
-    const currentIdx = getEmojiIndex(currYear, month, day);
-    if (selectedEmojiIndex === currentIdx && selectedEmojiIndex > 0) {
+    if (selectedEmojiIndex === 0) {
         const tasks = loadTasks();
         const task = tasks.find(t => t.id === currentTaskId);
         if (task) {
@@ -240,7 +239,7 @@ const saveEmojiAndComment = () => {
             delete task.emojis[key];
             saveTasks(tasks);
         }
-    } else if (selectedEmojiIndex > 0) {
+    } else {
         saveEmojiIndex(currYear, month, day, selectedEmojiIndex);
     }
     
