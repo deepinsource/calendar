@@ -72,7 +72,11 @@ const saveEmojiIndex = (year, month, day, index) => {
     const task = tasks.find(t => t.id === currentTaskId);
     if (!task) return;
     const key = getDateKey(year, month, day);
-    task.emojis[key] = index;
+    if (task.emojis[key] === index) {
+        delete task.emojis[key];
+    } else {
+        task.emojis[key] = index;
+    }
     saveTasks(tasks);
 };
 
@@ -117,9 +121,9 @@ const renderMonthStats = (i) => {
     let successPct = occupied ? (success / occupied * 100).toFixed(1) : "0";
     let avgScore = occupied ? (scoreSum / occupied).toFixed(1) : "0";
     return `
-        <div class="stats-row"><span class="stats-label">尝试天数</span><span class="stats-value">${occupied}/${lastDate}</span><span class="stats-pct">${workingPct}%</span></div>
+        <div class="stats-row"><span class="stats-label">尝试天数</span><span class="stats-value">${occupied}/${lastDate}</span><span class="stats-pct">${workingPct} %</span></div>
         <div class="stats-bar"><div class="stats-bar-fill" style="width:${workingPct}%;background:#4b9cd3;"></div></div>
-        <div class="stats-row"><span class="stats-label">成功天数</span><span class="stats-value">${success}/${occupied}</span><span class="stats-pct">${successPct}%</span></div>
+        <div class="stats-row"><span class="stats-label">成功天数</span><span class="stats-value">${success}/${occupied}</span><span class="stats-pct">${successPct} %</span></div>
         <div class="stats-bar"><div class="stats-bar-fill" style="width:${successPct}%;background:#2ecc71;"></div></div>
         <div class="stats-row"><span class="stats-label">平均得分</span><span class="stats-value">${avgScore}</span><span class="stats-pct">${avgScore}</span></div>
         <div class="stats-bar"><div class="stats-bar-fill" style="width:${avgScore}%;background:#e67e22;"></div></div>
@@ -135,7 +139,7 @@ const renderYearView = () => {
             : `<div class="mini-days">${renderMonthDays(i)}</div>`;
 
         monthTag += `<div class="month-card" data-month="${i}">
-            <div class="month-title" data-month="${i}" style="background:${task.color};color:#fff;border-radius:6px;padding:2px 0;cursor:pointer;">${months[i]}</div>
+            <div class="month-title" data-month="${i}" style="background:${task.color};color:#fff;border-radius:6px;padding:4px 0;cursor:pointer;">${months[i]}</div>
             ${content}
         </div>`;
     }
