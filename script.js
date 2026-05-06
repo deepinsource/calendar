@@ -37,7 +37,7 @@ const getDateKey = (year, month, day) => `${year}-${month}-${day}`;
 const loadTasks = () => {
     const saved = localStorage.getItem("calendarTasks");
     if (saved) return JSON.parse(saved);
-    const defaultTask = { id: "default", name: "默认任务", color: "#4b9cd3", emojis: {} };
+    const defaultTask = { id: "default", name: "默认任务", color: "#4b9cd3", emojis: {}, lastEditYear: null, lastEditMonth: null };
     localStorage.setItem("calendarTasks", JSON.stringify([defaultTask]));
     return [defaultTask];
 };
@@ -76,6 +76,8 @@ const saveEmojiIndex = (year, month, day, index) => {
         delete task.emojis[key];
     } else {
         task.emojis[key] = index;
+        task.lastEditYear = year;
+        task.lastEditMonth = month;
     }
     saveTasks(tasks);
 };
@@ -148,6 +150,8 @@ const renderYearView = () => {
 };
 
 initCurrentTask();
+const initTask = getCurrentTask();
+currYear = initTask.lastEditYear || date.getFullYear();
 renderYearView();
 
 const renderEmojiGrid = () => {
@@ -269,6 +273,9 @@ taskListEl.addEventListener("click", (e) => {
         currentTaskId = id;
         localStorage.setItem("currentTaskId", id);
         taskPopup.classList.remove("show");
+        const tasks = loadTasks();
+        const task = tasks.find(t => t.id === id);
+        if (task && task.lastEditYear) currYear = task.lastEditYear;
         renderYearView();
     }
 });
