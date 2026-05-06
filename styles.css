@@ -229,6 +229,23 @@ body {
     background: rgba(75, 156, 211, 0.2);
 }
 
+.emoji-section {
+    margin-bottom: 12px;
+}
+
+.emoji-section label {
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.emoji-grid span.selected {
+    background: rgba(75, 156, 211, 0.3);
+    outline: 2px solid #4b9cd3;
+}
+
 .comment-section {
     margin-top: 12px;
 }
@@ -254,6 +271,25 @@ body {
 
 .comment-section textarea:focus {
     border-color: #4b9cd3;
+}
+
+.save-emoji-btn {
+    cursor: pointer;
+    background: #4b9cd3;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    font-weight: 500;
+    font-size: 0.95rem;
+    width: 100%;
+    margin-top: 12px;
+    transition: all 0.3s;
+}
+
+.save-emoji-btn:hover {
+    background: #3a8bc4;
 }
 
 .close-btn {
@@ -554,6 +590,11 @@ body {
     color: #888;
     flex-shrink: 0;
     min-width: 30px;
+}
+
+.comment-emoji {
+    font-size: 0.9rem;
+    flex-shrink: 0;
 }
 
 .comment-text {

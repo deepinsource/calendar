@@ -24,6 +24,7 @@ importFile = document.querySelector("#importFile");
 let date = new Date(),
 currYear = date.getFullYear(),
 selectedDayElement = null,
+selectedEmojiIndex = 0,
 currentTaskId = null,
 editingTaskId = null,
 statsMonthsOpen = new Set();
@@ -143,7 +144,8 @@ const renderMonthStats = (i) => {
         }
         let comment = getComment(currYear, i, d);
         if (comment) {
-            commentsList.push(`<div class="comment-item"><span class="comment-date">${d}日</span><span class="comment-text">${comment}</span></div>`);
+            let emoji = idx > 0 ? emojis[idx - 1] : "";
+            commentsList.push(`<div class="comment-item"><span class="comment-date">${d}日</span><span class="comment-emoji">${emoji}</span><span class="comment-text">${comment}</span></div>`);
         }
     }
     let workingPct = lastDate ? (occupied / lastDate * 100).toFixed(1) : "0";
@@ -196,45 +198,63 @@ currYear = initTask.lastEditYear || date.getFullYear();
 renderYearView();
 scrollToLastEditMonth();
 
-const renderEmojiGrid = () => {
+const renderEmojiGrid = (selectedIdx) => {
     let emojiTag = "";
     for (let i = 0; i < emojis.length; i++) {
-        emojiTag += `<span data-index="${i + 1}">${emojis[i]}</span>`;
+        let selected = (i + 1 === selectedIdx) ? "selected" : "";
+        emojiTag += `<span data-index="${i + 1}" class="${selected}">${emojis[i]}</span>`;
     }
     emojiGrid.innerHTML = emojiTag;
 };
 
-renderEmojiGrid();
+renderEmojiGrid(0);
 
 emojiGrid.addEventListener("click", (e) => {
     if (e.target.tagName === "SPAN") {
         let index = parseInt(e.target.dataset.index);
-        let month = parseInt(selectedDayElement.dataset.month);
-        let day = parseInt(selectedDayElement.dataset.day);
-        if (!isNaN(day) && !isNaN(index)) {
-            saveEmojiIndex(currYear, month, day, index);
-            renderYearView();
+        if (!isNaN(index)) {
+            selectedEmojiIndex = index;
+            renderEmojiGrid(index);
         }
-        closeEmojiPopupFn();
     }
 });
 
 const closeEmojiPopupFn = () => {
-    if (selectedDayElement) {
-        const month = parseInt(selectedDayElement.dataset.month);
-        const day = parseInt(selectedDayElement.dataset.day);
-        if (!isNaN(day)) {
-            saveComment(currYear, month, day, commentInput.value);
-        }
-    }
     emojiPopup.classList.remove("show");
     selectedDayElement = null;
+    selectedEmojiIndex = 0;
+};
+
+const saveEmojiAndComment = () => {
+    if (!selectedDayElement) return;
+    const month = parseInt(selectedDayElement.dataset.month);
+    const day = parseInt(selectedDayElement.dataset.day);
+    if (isNaN(day)) return;
+    
+    const currentIdx = getEmojiIndex(currYear, month, day);
+    if (selectedEmojiIndex === currentIdx && selectedEmojiIndex > 0) {
+        const tasks = loadTasks();
+        const task = tasks.find(t => t.id === currentTaskId);
+        if (task) {
+            const key = getDateKey(currYear, month, day);
+            delete task.emojis[key];
+            saveTasks(tasks);
+        }
+    } else if (selectedEmojiIndex > 0) {
+        saveEmojiIndex(currYear, month, day, selectedEmojiIndex);
+    }
+    
+    saveComment(currYear, month, day, commentInput.value);
+    renderYearView();
+    closeEmojiPopupFn();
 };
 
 closeEmojiPopup.addEventListener("click", closeEmojiPopupFn);
 emojiPopup.addEventListener("click", (e) => {
     if (e.target === emojiPopup) closeEmojiPopupFn();
 });
+
+document.querySelector("#saveEmojiBtn").addEventListener("click", saveEmojiAndComment);
 
 monthsTag.addEventListener("click", (e) => {
     if (e.target.classList.contains("month-title")) {
@@ -251,6 +271,8 @@ monthsTag.addEventListener("click", (e) => {
         selectedDayElement = e.target;
         const month = parseInt(e.target.dataset.month);
         const day = parseInt(e.target.dataset.day);
+        selectedEmojiIndex = getEmojiIndex(currYear, month, day);
+        renderEmojiGrid(selectedEmojiIndex);
         commentInput.value = getComment(currYear, month, day);
         emojiPopup.classList.add("show");
     }
