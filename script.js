@@ -146,13 +146,26 @@ const renderYearView = () => {
         </div>`;
     }
     currentDate.innerText = `${currYear} - ${task.name}`;
+    document.title = `${currYear} - ${task.name}`;
     monthsTag.innerHTML = monthTag;
+};
+
+const scrollToLastEditMonth = () => {
+    if (window.innerWidth > 480) return;
+    const task = getCurrentTask();
+    if (task && task.lastEditMonth !== null) {
+        const monthCard = document.querySelector(`.month-card[data-month="${task.lastEditMonth}"]`);
+        if (monthCard) {
+            monthCard.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    }
 };
 
 initCurrentTask();
 const initTask = getCurrentTask();
 currYear = initTask.lastEditYear || date.getFullYear();
 renderYearView();
+scrollToLastEditMonth();
 
 const renderEmojiGrid = () => {
     let emojiTag = "";
@@ -277,6 +290,7 @@ taskListEl.addEventListener("click", (e) => {
         const task = tasks.find(t => t.id === id);
         if (task && task.lastEditYear) currYear = task.lastEditYear;
         renderYearView();
+        scrollToLastEditMonth();
     }
 });
 
