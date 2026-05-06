@@ -6,6 +6,7 @@ monthsTag = document.querySelector(".months"),
 emojiPopup = document.querySelector("#emojiPopup"),
 emojiGrid = document.querySelector("#emojiGrid"),
 closeEmojiPopup = document.querySelector("#closeEmojiPopup"),
+commentInput = document.querySelector("#commentInput"),
 taskPopup = document.querySelector("#taskPopup"),
 closeTaskPopup = document.querySelector("#closeTaskPopup"),
 taskListEl = document.querySelector("#taskList"),
@@ -37,7 +38,7 @@ const getDateKey = (year, month, day) => `${year}-${month}-${day}`;
 const loadTasks = () => {
     const saved = localStorage.getItem("calendarTasks");
     if (saved) return JSON.parse(saved);
-    const defaultTask = { id: "default", name: "默认任务", color: "#4b9cd3", emojis: {}, lastEditYear: null, lastEditMonth: null };
+    const defaultTask = { id: "default", name: "默认任务", color: "#4b9cd3", emojis: {}, comments: {}, lastEditYear: null, lastEditMonth: null };
     localStorage.setItem("calendarTasks", JSON.stringify([defaultTask]));
     return [defaultTask];
 };
@@ -82,6 +83,27 @@ const saveEmojiIndex = (year, month, day, index) => {
     saveTasks(tasks);
 };
 
+const getComment = (year, month, day) => {
+    const task = getCurrentTask();
+    if (!task.comments) return "";
+    const key = getDateKey(year, month, day);
+    return task.comments[key] || "";
+};
+
+const saveComment = (year, month, day, comment) => {
+    const tasks = loadTasks();
+    const task = tasks.find(t => t.id === currentTaskId);
+    if (!task) return;
+    if (!task.comments) task.comments = {};
+    const key = getDateKey(year, month, day);
+    if (comment.trim()) {
+        task.comments[key] = comment.trim();
+    } else {
+        delete task.comments[key];
+    }
+    saveTasks(tasks);
+};
+
 const renderMonthDays = (i) => {
     let firstDayofMonth = new Date(currYear, i, 1).getDay();
     let lastDateofMonth = new Date(currYear, i + 1, 0).getDate();
@@ -111,6 +133,7 @@ const scoreMap = {1:100, 2:87.5, 3:75, 4:62.5, 5:50, 6:37.5, 7:25, 8:12.5};
 const renderMonthStats = (i) => {
     const lastDate = new Date(currYear, i + 1, 0).getDate();
     let occupied = 0, success = 0, scoreSum = 0;
+    let commentsList = [];
     for (let d = 1; d <= lastDate; d++) {
         let idx = getEmojiIndex(currYear, i, d);
         if (idx > 0) {
@@ -118,10 +141,15 @@ const renderMonthStats = (i) => {
             scoreSum += scoreMap[idx] || 0;
             if (idx <= 4) success++;
         }
+        let comment = getComment(currYear, i, d);
+        if (comment) {
+            commentsList.push(`<div class="comment-item"><span class="comment-date">${d}日</span><span class="comment-text">${comment}</span></div>`);
+        }
     }
     let workingPct = lastDate ? (occupied / lastDate * 100).toFixed(1) : "0";
     let successPct = occupied ? (success / occupied * 100).toFixed(1) : "0";
     let avgScore = occupied ? (scoreSum / occupied).toFixed(1) : "0";
+    let commentsHtml = commentsList.length ? `<div class="comments-list">${commentsList.join("")}</div>` : "";
     return `
         <div class="stats-row"><span class="stats-label">尝试天数</span><span class="stats-value">${occupied}/${lastDate}</span><span class="stats-pct">${workingPct} %</span></div>
         <div class="stats-bar"><div class="stats-bar-fill" style="width:${workingPct}%;background:#4b9cd3;"></div></div>
@@ -129,6 +157,7 @@ const renderMonthStats = (i) => {
         <div class="stats-bar"><div class="stats-bar-fill" style="width:${successPct}%;background:#2ecc71;"></div></div>
         <div class="stats-row"><span class="stats-label">平均得分</span><span class="stats-value">${avgScore}</span><span class="stats-pct">${avgScore}</span></div>
         <div class="stats-bar"><div class="stats-bar-fill" style="width:${avgScore}%;background:#e67e22;"></div></div>
+        ${commentsHtml}
     `;
 };
 
@@ -191,6 +220,13 @@ emojiGrid.addEventListener("click", (e) => {
 });
 
 const closeEmojiPopupFn = () => {
+    if (selectedDayElement) {
+        const month = parseInt(selectedDayElement.dataset.month);
+        const day = parseInt(selectedDayElement.dataset.day);
+        if (!isNaN(day)) {
+            saveComment(currYear, month, day, commentInput.value);
+        }
+    }
     emojiPopup.classList.remove("show");
     selectedDayElement = null;
 };
@@ -213,6 +249,9 @@ monthsTag.addEventListener("click", (e) => {
     }
     if (e.target.tagName === "SPAN" && !e.target.classList.contains("empty") && e.target.dataset.day) {
         selectedDayElement = e.target;
+        const month = parseInt(e.target.dataset.month);
+        const day = parseInt(e.target.dataset.day);
+        commentInput.value = getComment(currYear, month, day);
         emojiPopup.classList.add("show");
     }
 });

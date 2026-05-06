@@ -229,6 +229,33 @@ body {
     background: rgba(75, 156, 211, 0.2);
 }
 
+.comment-section {
+    margin-top: 12px;
+}
+
+.comment-section label {
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.comment-section textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    resize: vertical;
+    font-family: inherit;
+    outline: none;
+}
+
+.comment-section textarea:focus {
+    border-color: #4b9cd3;
+}
+
 .close-btn {
     position: absolute;
     top: 10px;
@@ -503,6 +530,35 @@ body {
     height: 100%;
     border-radius: 3px;
     transition: width 0.3s;
+}
+
+.comments-list {
+    margin-top: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.comment-item {
+    display: flex;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+.comment-date {
+    font-size: 0.7rem;
+    color: #888;
+    flex-shrink: 0;
+    min-width: 30px;
+}
+
+.comment-text {
+    font-size: 0.75rem;
+    color: #333;
 }
 
 @media (max-width: 480px) {
