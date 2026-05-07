@@ -243,7 +243,6 @@ body {
 
 .emoji-grid span.selected {
     background: rgba(75, 156, 211, 0.3);
-    outline: 2px solid #4b9cd3;
 }
 
 .comment-section {
@@ -579,6 +578,7 @@ body {
     gap: 8px;
     padding: 4px 0;
     border-bottom: 1px solid rgba(0,0,0,0.05);
+    cursor: pointer;
 }
 
 .comment-item:last-child {
@@ -586,7 +586,7 @@ body {
 }
 
 .comment-date {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     color: #888;
     flex-shrink: 0;
     min-width: 30px;
@@ -598,7 +598,7 @@ body {
 }
 
 .comment-text {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     color: #333;
 }
 
