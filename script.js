@@ -17,6 +17,7 @@ closeTaskEdit = document.querySelector("#closeTaskEdit"),
 taskNameInput = document.querySelector("#taskNameInput"),
 taskColorInput = document.querySelector("#taskColorInput"),
 saveTaskBtn = document.querySelector("#saveTaskBtn"),
+deleteTaskBtn = document.querySelector("#deleteTaskBtn"),
 exportBtn = document.querySelector("#exportBtn"),
 importBtn = document.querySelector("#importBtn"),
 importFile = document.querySelector("#importFile");
@@ -352,6 +353,7 @@ taskListEl.addEventListener("click", (e) => {
         taskEditTitle.innerText = "编辑任务";
         taskNameInput.value = task.name;
         taskColorInput.value = task.color;
+        deleteTaskBtn.style.display = "block";
         taskEditPopup.classList.add("show");
         return;
     }
@@ -374,6 +376,7 @@ addTaskBtn.addEventListener("click", () => {
     taskEditTitle.innerText = "新建任务";
     taskNameInput.value = "";
     taskColorInput.value = "#4b9cd3";
+    deleteTaskBtn.style.display = "none";
     taskEditPopup.classList.add("show");
 });
 
@@ -402,7 +405,10 @@ saveTaskBtn.addEventListener("click", () => {
             id: "task_" + Date.now(),
             name: name,
             color: color,
-            emojis: {}
+            emojis: {},
+            comments: {},
+            lastEditYear: null,
+            lastEditMonth: null
         };
         tasks.push(newTask);
         currentTaskId = newTask.id;
@@ -410,6 +416,25 @@ saveTaskBtn.addEventListener("click", () => {
     }
 
     saveTasks(tasks);
+    taskEditPopup.classList.remove("show");
+    renderTaskList();
+    renderYearView();
+});
+
+deleteTaskBtn.addEventListener("click", () => {
+    if (!editingTaskId) return;
+    const tasks = loadTasks();
+    const idx = tasks.findIndex(t => t.id === editingTaskId);
+    if (idx === -1) return;
+    
+    tasks.splice(idx, 1);
+    saveTasks(tasks);
+    
+    if (currentTaskId === editingTaskId) {
+        currentTaskId = tasks[0]?.id || null;
+        if (currentTaskId) localStorage.setItem("currentTaskId", currentTaskId);
+    }
+    
     taskEditPopup.classList.remove("show");
     renderTaskList();
     renderYearView();

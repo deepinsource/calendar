@@ -521,6 +521,25 @@ body {
     background: #3a8bc4;
 }
 
+.delete-task-btn {
+    cursor: pointer;
+    background: #e74c3c;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-top: 8px;
+    width: 100%;
+    transition: all 0.3s;
+}
+
+.delete-task-btn:hover {
+    background: #c0392b;
+}
+
 .mini-stats {
     padding: 4px 0;
 }
