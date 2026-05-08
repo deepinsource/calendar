@@ -548,6 +548,16 @@ const handleSwipe = () => {
         currYear = tasks[newIdx].lastEditYear;
     }
     
+    const container = document.querySelector(".calendar-container");
+    container.classList.remove("swipe-left", "swipe-right");
+    void container.offsetWidth;
+    
+    if (diff > 0) {
+        container.classList.add("swipe-left");
+    } else {
+        container.classList.add("swipe-right");
+    }
+    
     renderYearView();
     scrollToLastEditMonth();
 };
