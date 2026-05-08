@@ -484,3 +484,45 @@ importFile.addEventListener("change", (e) => {
     reader.readAsText(file);
     importFile.value = "";
 });
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+document.addEventListener("touchend", (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, { passive: true });
+
+const handleSwipe = () => {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) < swipeThreshold) return;
+    
+    const tasks = loadTasks();
+    if (tasks.length <= 1) return;
+    
+    const currentIdx = tasks.findIndex(t => t.id === currentTaskId);
+    if (currentIdx === -1) return;
+    
+    let newIdx;
+    if (diff > 0) {
+        newIdx = (currentIdx + 1) % tasks.length;
+    } else {
+        newIdx = (currentIdx - 1 + tasks.length) % tasks.length;
+    }
+    
+    currentTaskId = tasks[newIdx].id;
+    localStorage.setItem("currentTaskId", currentTaskId);
+    
+    if (tasks[newIdx].lastEditYear) {
+        currYear = tasks[newIdx].lastEditYear;
+    }
+    
+    renderYearView();
+    scrollToLastEditMonth();
+};
