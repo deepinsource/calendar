@@ -548,15 +548,20 @@ const handleSwipe = () => {
         currYear = tasks[newIdx].lastEditYear;
     }
     
-    monthsTag.classList.remove("swipe-left", "swipe-right");
-    void monthsTag.offsetWidth;
-    
-    if (diff > 0) {
-        monthsTag.classList.add("swipe-left");
-    } else {
-        monthsTag.classList.add("swipe-right");
-    }
-    
     renderYearView();
+    
+    const monthCards = document.querySelectorAll(".month-card");
+    monthCards.forEach((card, index) => {
+        card.classList.add("swipe-animate");
+        card.style.animationDelay = `${index * 0.05}s`;
+    });
+    
+    setTimeout(() => {
+        monthCards.forEach(card => {
+            card.classList.remove("swipe-animate");
+            card.style.animationDelay = "";
+        });
+    }, 300 + monthCards.length * 50);
+    
     scrollToLastEditMonth();
 };

@@ -30,37 +30,6 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     margin-top: 15px;
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-}
-
-.months.swipe-left {
-    animation: swipeLeft 0.3s ease-out;
-}
-
-.months.swipe-right {
-    animation: swipeRight 0.3s ease-out;
-}
-
-@keyframes swipeLeft {
-    0% {
-        transform: translateX(100px);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes swipeRight {
-    0% {
-        transform: translateX(-100px);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
 }
 
 .header {
@@ -157,6 +126,22 @@ body {
     border-radius: 10px;
     transition: all 0.3s;
     padding: 10px;
+}
+
+.month-card.swipe-animate {
+    animation: monthFadeIn 0.3s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes monthFadeIn {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .month-card:hover {
