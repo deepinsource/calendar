@@ -517,6 +517,12 @@ document.addEventListener("touchend", (e) => {
 }, { passive: true });
 
 const handleSwipe = () => {
+    if (emojiPopup.classList.contains("show") ||
+        taskPopup.classList.contains("show") ||
+        taskEditPopup.classList.contains("show")) {
+        return;
+    }
+    
     const swipeThreshold = 50;
     const diff = touchStartX - touchEndX;
     
