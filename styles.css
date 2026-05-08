@@ -368,7 +368,16 @@ body {
     position: relative;
 }
 
-.task-popup-header h2 {
+.task-popup-header .close-btn,
+.task-edit-header .close-btn {
+    position: relative;
+    top: 0;
+    right: 0;
+    font-size: 1.5rem;
+}
+
+.task-popup-header h2,
+.task-edit-header h2 {
     font-size: 1.2rem;
     color: #333;
 }
