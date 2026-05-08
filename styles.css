@@ -373,7 +373,6 @@ body {
 
 .task-item.active {
     background: rgba(75, 156, 211, 0.15);
-    outline: 2px solid #4b9cd3;
 }
 
 .task-item-name {
