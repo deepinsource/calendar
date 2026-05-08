@@ -23,14 +23,21 @@ body {
     width: 100%;
     max-width: 900px;
     margin: 10px;
+}
+
+.months {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 15px;
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
 }
 
-.calendar-container.swipe-left {
+.months.swipe-left {
     animation: swipeLeft 0.3s ease-out;
 }
 
-.calendar-container.swipe-right {
+.months.swipe-right {
     animation: swipeRight 0.3s ease-out;
 }
 
@@ -143,13 +150,6 @@ body {
 
 .calendar-body {
     padding: 20px;
-}
-
-.months {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 15px;
 }
 
 .month-card {
