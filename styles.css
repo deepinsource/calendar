@@ -291,6 +291,25 @@ body {
     background: #3a8bc4;
 }
 
+.delete-emoji-btn {
+    cursor: pointer;
+    background: #e74c3c;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    font-weight: 500;
+    font-size: 0.95rem;
+    width: 100%;
+    margin-top: 8px;
+    transition: all 0.3s;
+}
+
+.delete-emoji-btn:hover {
+    background: #c0392b;
+}
+
 .close-btn {
     position: absolute;
     top: 10px;

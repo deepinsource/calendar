@@ -256,6 +256,25 @@ emojiPopup.addEventListener("click", (e) => {
 
 document.querySelector("#saveEmojiBtn").addEventListener("click", saveEmojiAndComment);
 
+document.querySelector("#deleteEmojiBtn").addEventListener("click", () => {
+    if (!selectedDayElement) return;
+    const month = parseInt(selectedDayElement.dataset.month);
+    const day = parseInt(selectedDayElement.dataset.day);
+    if (isNaN(day)) return;
+    
+    const tasks = loadTasks();
+    const task = tasks.find(t => t.id === currentTaskId);
+    if (task) {
+        const key = getDateKey(currYear, month, day);
+        delete task.emojis[key];
+        if (task.comments) delete task.comments[key];
+        saveTasks(tasks);
+    }
+    
+    renderYearView();
+    closeEmojiPopupFn();
+});
+
 monthsTag.addEventListener("click", (e) => {
     if (e.target.classList.contains("month-title")) {
         const monthIdx = parseInt(e.target.dataset.month);
