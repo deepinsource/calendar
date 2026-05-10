@@ -553,7 +553,7 @@ const handleSwipe = () => {
     const monthCards = document.querySelectorAll(".month-card");
     monthCards.forEach((card, index) => {
         card.classList.add("swipe-animate");
-        card.style.animationDelay = `${index * 0.08}s`;
+        card.style.animationDelay = `${index * 0.06}s`;
     });
     
     setTimeout(() => {
@@ -561,7 +561,7 @@ const handleSwipe = () => {
             card.classList.remove("swipe-animate");
             card.style.animationDelay = "";
         });
-    }, 300 + monthCards.length * 80);
+    }, 300 + monthCards.length * 60);
     
     scrollToLastEditMonth();
 };
