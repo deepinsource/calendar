@@ -523,7 +523,7 @@ const handleSwipe = () => {
         return;
     }
     
-    const swipeThreshold = 100;
+    const swipeThreshold = 75;
     const diff = touchStartX - touchEndX;
     
     if (Math.abs(diff) < swipeThreshold) return;
