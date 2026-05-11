@@ -6,6 +6,7 @@ monthsTag = document.querySelector(".months"),
 emojiPopup = document.querySelector("#emojiPopup"),
 emojiGrid = document.querySelector("#emojiGrid"),
 closeEmojiPopup = document.querySelector("#closeEmojiPopup"),
+selectedDateEl = document.querySelector("#selectedDate"),
 commentInput = document.querySelector("#commentInput"),
 taskPopup = document.querySelector("#taskPopup"),
 closeTaskPopup = document.querySelector("#closeTaskPopup"),
@@ -296,6 +297,7 @@ monthsTag.addEventListener("click", (e) => {
             renderEmojiGrid(selectedEmojiIndex);
             commentInput.value = getComment(currYear, month, day);
             selectedDayElement = { dataset: { month: month, day: day } };
+            selectedDateEl.innerText = `${months[month]} ${day} ${currYear}`;
             emojiPopup.classList.add("show");
         }
         return;
@@ -308,6 +310,7 @@ monthsTag.addEventListener("click", (e) => {
         selectedEmojiIndex = getEmojiIndex(currYear, month, day);
         renderEmojiGrid(selectedEmojiIndex);
         commentInput.value = getComment(currYear, month, day);
+        selectedDateEl.innerText = `${months[month]} ${day} ${currYear}`;
         emojiPopup.classList.add("show");
     }
 });
