@@ -223,7 +223,7 @@ body {
 
 .emoji-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 8px;
     max-height: 300px;
     overflow-y: auto;
@@ -729,7 +729,7 @@ body {
     }
 
     .emoji-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         gap: 4px;
         max-height: 250px;
     }
