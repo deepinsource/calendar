@@ -33,7 +33,7 @@ statsMonthsOpen = new Set();
 const months = ["一月", "二月", "三月", "四月", "五月", "六月", "七月",
               "八月", "九月", "十月", "十一月", "十二月"];
 
-const emojis = ["😄", "😀", "😊", "🙂", "😶", "😐", "🙁", "☹️"];
+const emojis = ["😀", "🙂", "😐", "🙁", "☹️"];
 
 const getDateKey = (year, month, day) => `${year}-${month}-${day}`;
 
@@ -126,7 +126,7 @@ const renderMonthDays = (i) => {
     return dayTag;
 };
 
-const scoreMap = {1:100, 2:87.5, 3:75, 4:62.5, 5:50, 6:37.5, 7:25, 8:12.5};
+const scoreMap = {1:100, 2:75, 3:50, 4:25, 5:0};
 
 const renderMonthStats = (i) => {
     const lastDate = new Date(currYear, i + 1, 0).getDate();
@@ -137,7 +137,7 @@ const renderMonthStats = (i) => {
         if (idx > 0) {
             occupied++;
             scoreSum += scoreMap[idx] || 0;
-            if (idx <= 4) success++;
+            if (idx <= 2) success++;
         }
         let comment = getComment(currYear, i, d);
         if (comment) {
