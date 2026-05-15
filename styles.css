@@ -674,6 +674,7 @@ body {
     color: #333;
     white-space: pre-wrap;
     line-height: 1.5;
+    margin-top: 2px;
 }
 
 @media (max-width: 480px) {
@@ -768,6 +769,10 @@ body {
         align-items: center;
     }
 
+    .comment-text {
+        margin-top: 3px;
+    }
+
 }
 
 @media (max-width: 360px) {
@@ -803,5 +808,9 @@ body {
         font-size: 1.3rem;
         display: flex;
         align-items: center;
+    }
+
+    .comment-text {
+        margin-top: 3px;
     }
 }
