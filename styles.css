@@ -21,7 +21,7 @@ body {
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     padding: 30px;
     width: 100%;
-    max-width: 900px;
+    max-width: 1200px;
     margin: 10px;
 }
 
@@ -150,7 +150,7 @@ body {
 
 .month-title {
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 500;
     margin-bottom: 8px;
     letter-spacing: 1px;
@@ -166,7 +166,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #333;
     aspect-ratio: 1/1;
     border-radius: 4px;
@@ -189,7 +189,7 @@ body {
 }
 
 .mini-days span.has-emoji {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
 }
 
 .emoji-popup {
@@ -752,6 +752,18 @@ body {
         top: 5px;
         right: 10px;
     }
+
+    .stats-label,
+    .stats-value,
+    .stats-pct {
+        font-size: 0.9rem;
+    }
+
+    .comment-date,
+    .comment-emoji,
+    .comment-text {
+        font-size: 1rem;
+    }
 }
 
 @media (max-width: 360px) {
@@ -780,5 +792,17 @@ body {
 
     .mini-days span.has-emoji {
         font-size: 1.8rem;
+    }
+
+    .stats-label,
+    .stats-value,
+    .stats-pct {
+        font-size: 1rem;
+    }
+
+    .comment-date,
+    .comment-emoji,
+    .comment-text {
+        font-size: 1.1rem;
     }
 }
