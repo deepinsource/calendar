@@ -649,6 +649,7 @@ body {
     padding: 4px 0;
     border-bottom: 1px solid rgba(0,0,0,0.05);
     cursor: pointer;
+    align-items: flex-start;
 }
 
 .comment-item:last-child {
@@ -659,18 +660,20 @@ body {
     font-size: 1.1rem;
     color: #888;
     flex-shrink: 0;
-    min-width: 30px;
+    line-height: 1.5;
 }
 
 .comment-emoji {
     font-size: 1rem;
     flex-shrink: 0;
+    line-height: 1.5;
 }
 
 .comment-text {
     font-size: 1rem;
     color: #333;
     white-space: pre-wrap;
+    line-height: 1.5;
 }
 
 @media (max-width: 480px) {
