@@ -258,7 +258,7 @@ body {
 }
 
 .emoji-section label {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     color: #555;
     font-weight: 500;
     display: block;
@@ -274,7 +274,7 @@ body {
 }
 
 .comment-section label {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     color: #555;
     font-weight: 500;
     display: block;
@@ -286,7 +286,7 @@ body {
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     resize: vertical;
     font-family: inherit;
     outline: none;
