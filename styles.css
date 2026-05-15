@@ -166,7 +166,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     color: #333;
     aspect-ratio: 1/1;
     border-radius: 4px;
@@ -189,7 +189,7 @@ body {
 }
 
 .mini-days span.has-emoji {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 
 .emoji-popup {
@@ -605,18 +605,18 @@ body {
 
 .stats-label {
     color: #555;
-    font-size: 0.8rem;
+    font-size: 1.2rem;
     font-weight: 900;
 }
 
 .stats-value {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: #333;
     font-weight: 800;
 }
 
 .stats-pct {
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 800;
     color: #333;
     min-width: 40px;
@@ -656,19 +656,19 @@ body {
 }
 
 .comment-date {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     color: #888;
     flex-shrink: 0;
     min-width: 30px;
 }
 
 .comment-emoji {
-    font-size: 0.9rem;
+    font-size: 1rem;
     flex-shrink: 0;
 }
 
 .comment-text {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: #333;
     white-space: pre-wrap;
 }
@@ -753,17 +753,11 @@ body {
         right: 10px;
     }
 
-    .stats-label,
-    .stats-value,
-    .stats-pct {
-        font-size: 0.9rem;
+    .comments-list {
+        max-height: none;
+        overflow-y: visible;
     }
 
-    .comment-date,
-    .comment-emoji,
-    .comment-text {
-        font-size: 1rem;
-    }
 }
 
 @media (max-width: 360px) {
@@ -792,17 +786,5 @@ body {
 
     .mini-days span.has-emoji {
         font-size: 1.8rem;
-    }
-
-    .stats-label,
-    .stats-value,
-    .stats-pct {
-        font-size: 1rem;
-    }
-
-    .comment-date,
-    .comment-emoji,
-    .comment-text {
-        font-size: 1.1rem;
     }
 }
