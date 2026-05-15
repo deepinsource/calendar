@@ -143,7 +143,7 @@ const renderMonthStats = (i) => {
         let comment = getComment(currYear, i, d);
         if (comment) {
             let emoji = idx > 0 ? emojis[idx - 1] : "";
-            commentsList.push(`<div class="comment-item" data-month="${i}" data-day="${d}"><span class="comment-date">${d}日</span><span class="comment-emoji">${emoji}</span><span class="comment-text">${comment}</span></div>`);
+            commentsList.push(`<div class="comment-item" data-month="${i}" data-day="${d}"><span class="comment-date">${String(d).padStart(2, '0')}</span><span class="comment-emoji">${emoji}</span><span class="comment-text">${comment}</span></div>`);
         }
     }
     let workingPct = lastDate ? (occupied / lastDate * 100).toFixed(1) : "0";
