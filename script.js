@@ -470,6 +470,8 @@ exportBtn.addEventListener("click", () => {
     const jsonStr = JSON.stringify(data, null, 2);
     const filename = `calendar_backup_${new Date().toISOString().slice(0,10)}.json`;
     
+    let downloadSuccess = false;
+    
     try {
         const blob = new Blob([jsonStr], { type: "application/json" });
         const url = URL.createObjectURL(blob);
@@ -479,15 +481,64 @@ exportBtn.addEventListener("click", () => {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        setTimeout(() => URL.revokeObjectURL(url), 100);
+        downloadSuccess = true;
     } catch (e) {
-        const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(jsonStr);
-        const a = document.createElement("a");
-        a.href = dataUri;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        try {
+            const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(jsonStr);
+            const a = document.createElement("a");
+            a.href = dataUri;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            downloadSuccess = true;
+        } catch (e2) {
+            downloadSuccess = false;
+        }
+    }
+    
+    if (!downloadSuccess) {
+        const textArea = document.createElement("textarea");
+        textArea.value = jsonStr;
+        textArea.style.position = "fixed";
+        textArea.style.top = "50%";
+        textArea.style.left = "50%";
+        textArea.style.transform = "translate(-50%, -50%)";
+        textArea.style.width = "80%";
+        textArea.style.height = "300px";
+        textArea.style.zIndex = "10000";
+        textArea.style.background = "white";
+        textArea.style.border = "2px solid #4b9cd3";
+        textArea.style.borderRadius = "8px";
+        textArea.style.padding = "10px";
+        textArea.style.fontFamily = "monospace";
+        textArea.style.fontSize = "12px";
+        document.body.appendChild(textArea);
+        textArea.select();
+        
+        const hint = document.createElement("div");
+        hint.innerText = "请复制上方数据并保存为 " + filename;
+        hint.style.position = "fixed";
+        hint.style.top = "calc(50% + 170px)";
+        hint.style.left = "50%";
+        hint.style.transform = "translateX(-50%)";
+        hint.style.zIndex = "10000";
+        hint.style.background = "#4b9cd3";
+        hint.style.color = "white";
+        hint.style.padding = "10px 20px";
+        hint.style.borderRadius = "8px";
+        hint.style.cursor = "pointer";
+        document.body.appendChild(hint);
+        
+        hint.onclick = () => {
+            document.body.removeChild(textArea);
+            document.body.removeChild(hint);
+        };
+        
+        textArea.onclick = () => {
+            textArea.select();
+        };
     }
 });
 
