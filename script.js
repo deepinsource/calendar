@@ -467,13 +467,28 @@ exportBtn.addEventListener("click", () => {
         calendarTasks: loadTasks(),
         currentTaskId: localStorage.getItem("currentTaskId") || loadTasks()[0].id
     };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `calendar_backup_${new Date().toISOString().slice(0,10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+    const jsonStr = JSON.stringify(data, null, 2);
+    const filename = `calendar_backup_${new Date().toISOString().slice(0,10)}.json`;
+    
+    try {
+        const blob = new Blob([jsonStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    } catch (e) {
+        const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(jsonStr);
+        const a = document.createElement("a");
+        a.href = dataUri;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
 });
 
 importBtn.addEventListener("click", () => {
