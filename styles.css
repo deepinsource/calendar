@@ -648,7 +648,6 @@ body {
     gap: 8px;
     padding: 4px 0;
     margin: 5px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
     cursor: pointer;
     align-items: flex-start;
 }
