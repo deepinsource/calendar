@@ -41,15 +41,8 @@ body {
 
 #currentDate {
     font-size: 1.25rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    /* color: #333; */
-    padding: 15px;
-    border-radius: 10px;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    cursor: pointer;
 }
 
 .nav-btn {
