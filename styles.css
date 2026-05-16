@@ -39,7 +39,7 @@ body {
     gap: 8px;
 }
 
-.header h2 {
+#currentDate {
     font-size: 1.25rem;
     font-weight: 500;
     letter-spacing: 1px;
@@ -680,7 +680,7 @@ body {
         border-radius: 15px;
     }
 
-    .header h2 {
+    #currentDate {
         font-size: 0.95rem;
         padding: 14px;
         letter-spacing: 0.5px;
@@ -776,7 +776,7 @@ body {
         padding: 10px;
     }
 
-    .header h2 {
+    #currentDate {
         font-size: 0.8rem;
         padding: 13px;
     }
