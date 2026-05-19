@@ -133,8 +133,13 @@ const renderMonthStats = (i) => {
     const lastDate = new Date(currYear, i + 1, 0).getDate();
     let occupied = 0, success = 0, scoreSum = 0;
     let commentsList = [];
+    let dailyScores = [];
+    
     for (let d = 1; d <= lastDate; d++) {
         let idx = getEmojiIndex(currYear, i, d);
+        let score = idx > 0 ? (scoreMap[idx] || 0) : null;
+        dailyScores.push(score);
+        
         if (idx > 0) {
             occupied++;
             scoreSum += scoreMap[idx] || 0;
@@ -146,11 +151,24 @@ const renderMonthStats = (i) => {
             commentsList.push(`<div class="comment-item" data-month="${i}" data-day="${d}"><span class="comment-date">${String(d).padStart(2, '0')}</span><span class="comment-emoji">${emoji}</span><span class="comment-text">${comment}</span></div>`);
         }
     }
+    
     let workingPct = lastDate ? (occupied / lastDate * 100).toFixed(1) : "0";
     let successPct = occupied ? (success / occupied * 100).toFixed(1) : "0";
     let avgScore = occupied ? (scoreSum / occupied).toFixed(1) : "0";
     let commentsHtml = commentsList.length ? `<div class="comments-list">${commentsList.join("")}</div>` : "";
+    
+    let chartHtml = "";
+    if (occupied > 0) {
+        const chartId = `chart-${i}-${Date.now()}`;
+        chartHtml = `<div class="score-chart-container"><canvas id="${chartId}" class="score-chart"></canvas></div>`;
+        setTimeout(() => {
+            const canvas = document.getElementById(chartId);
+            if (canvas) drawScoreChart(canvas, dailyScores);
+        }, 0);
+    }
+    
     return `
+        ${chartHtml}
         <div class="stats-row"><span class="stats-label">尝试天数</span><span class="stats-value">${occupied}/${lastDate}</span><span class="stats-pct">${workingPct} %</span></div>
         <div class="stats-bar"><div class="stats-bar-fill" style="width:${workingPct}%;background:#4b9cd3;"></div></div>
         <div class="stats-row"><span class="stats-label">成功天数</span><span class="stats-value">${success}/${occupied}</span><span class="stats-pct">${successPct} %</span></div>
@@ -159,6 +177,66 @@ const renderMonthStats = (i) => {
         <div class="stats-bar"><div class="stats-bar-fill" style="width:${avgScore}%;background:#e67e22;"></div></div>
         ${commentsHtml}
     `;
+};
+
+const drawScoreChart = (canvas, scores) => {
+    const ctx = canvas.getContext("2d");
+    const width = canvas.parentElement.clientWidth;
+    const height = 80;
+    const padding = 20;
+    
+    canvas.width = width;
+    canvas.height = height;
+    
+    ctx.clearRect(0, 0, width, height);
+    
+    const chartWidth = width - padding * 2;
+    const chartHeight = height - padding;
+    
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.1)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padding, padding);
+    ctx.lineTo(width - padding, padding);
+    ctx.stroke();
+    
+    const validScores = scores.filter(s => s !== null);
+    if (validScores.length === 0) return;
+    
+    const stepX = chartWidth / (scores.length - 1 || 1);
+    
+    ctx.strokeStyle = "#4b9cd3";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    
+    let firstPoint = true;
+    scores.forEach((score, index) => {
+        if (score !== null) {
+            const x = padding + index * stepX;
+            const y = padding + chartHeight * (1 - score / 100);
+            
+            if (firstPoint) {
+                ctx.moveTo(x, y);
+                firstPoint = false;
+            } else {
+                ctx.lineTo(x, y);
+            }
+        }
+    });
+    
+    ctx.stroke();
+    
+    ctx.fillStyle = "#4b9cd3";
+    scores.forEach((score, index) => {
+        if (score !== null) {
+            const x = padding + index * stepX;
+            const y = padding + chartHeight * (1 - score / 100);
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    });
 };
 
 const renderYearView = () => {

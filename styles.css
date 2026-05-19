@@ -588,6 +588,15 @@ body {
     padding: 4px 0;
 }
 
+.score-chart-container {
+    margin-bottom: 10px;
+}
+
+.score-chart {
+    width: 100%;
+    display: block;
+}
+
 .stats-row {
     display: flex;
     justify-content: space-between;
