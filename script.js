@@ -12,7 +12,6 @@ closeTaskPopup = document.querySelector("#closeTaskPopup"),
 taskListEl = document.querySelector("#taskList"),
 addTaskBtn = document.querySelector("#addTaskBtn"),
 taskEditPopup = document.querySelector("#taskEditPopup"),
-taskEditTitle = document.querySelector("#taskEditTitle"),
 closeTaskEdit = document.querySelector("#closeTaskEdit"),
 taskNameInput = document.querySelector("#taskNameInput"),
 taskColorInput = document.querySelector("#taskColorInput"),
@@ -471,7 +470,6 @@ taskListEl.addEventListener("click", (e) => {
         const task = tasks.find(t => t.id === id);
         if (!task) return;
         editingTaskId = id;
-        taskEditTitle.innerText = "编辑任务";
         taskNameInput.value = task.name;
         taskColorInput.value = task.color;
         deleteTaskBtn.style.display = "block";
@@ -494,7 +492,6 @@ taskListEl.addEventListener("click", (e) => {
 
 addTaskBtn.addEventListener("click", () => {
     editingTaskId = null;
-    taskEditTitle.innerText = "新建任务";
     taskNameInput.value = "";
     taskColorInput.value = "#4b9cd3";
     deleteTaskBtn.style.display = "none";
