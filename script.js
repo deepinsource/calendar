@@ -181,13 +181,17 @@ const renderMonthStats = (i) => {
 
 const drawScoreChart = (canvas, scores) => {
     const ctx = canvas.getContext("2d");
+    const dpr = window.devicePixelRatio || 1;
     const width = canvas.parentElement.clientWidth;
     const height = 80;
     const padding = 20;
     
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
     
+    ctx.scale(dpr, dpr);
     ctx.clearRect(0, 0, width, height);
     
     const chartWidth = width - padding * 2;
