@@ -1,7 +1,6 @@
 const currentDate = document.querySelector("#currentDate"),
 prevYearBtn = document.querySelector("#prevYear"),
 nextYearBtn = document.querySelector("#nextYear"),
-taskBtn = document.querySelector("#taskBtn"),
 monthsTag = document.querySelector(".months"),
 emojiPopup = document.querySelector("#emojiPopup"),
 emojiGrid = document.querySelector("#emojiGrid"),
@@ -450,7 +449,7 @@ const renderTaskList = () => {
     taskListEl.innerHTML = html;
 };
 
-taskBtn.addEventListener("click", () => {
+currentDate.addEventListener("click", () => {
     renderTaskList();
     taskPopup.classList.add("show");
 });

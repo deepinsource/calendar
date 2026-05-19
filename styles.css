@@ -70,25 +70,6 @@ body {
     color: #333;
 }
 
-.task-btn {
-    cursor: pointer;
-    background: #4b9cd3;
-    border: none;
-    outline: none;
-    border-radius: 10px;
-    padding: 8px 14px;
-    color: white;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-    flex-shrink: 0;
-    white-space: nowrap;
-}
-
-.task-btn:hover {
-    background: #3a8bc4;
-}
-
 .io-btn {
     cursor: pointer;
     background: rgba(255, 255, 255, 0.8);
@@ -690,11 +671,6 @@ body {
     .nav-btn {
         width: 32px;
         height: 32px;
-    }
-
-    .task-btn {
-        padding: 6px 10px;
-        font-size: 0.8rem;
     }
 
     .io-btn {
