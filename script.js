@@ -366,7 +366,6 @@ monthsTag.addEventListener("click", (e) => {
         if (singleClickTimer) {
             clearTimeout(singleClickTimer);
             singleClickTimer = null;
-            return;
         }
         
         singleClickTimer = setTimeout(() => {
@@ -377,7 +376,7 @@ monthsTag.addEventListener("click", (e) => {
             }
             renderYearView();
             singleClickTimer = null;
-        }, 200);
+        }, 250);
         return;
     }
     
@@ -420,6 +419,7 @@ monthsTag.addEventListener("dblclick", (e) => {
             for (let i = 0; i < 12; i++) statsMonthsOpen.add(i);
         }
         renderYearView();
+        e.preventDefault();
     }
 });
 
