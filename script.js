@@ -397,13 +397,15 @@ monthsTag.addEventListener("click", (e) => {
     }
 });
 
-currentDate.addEventListener("click", () => {
-    if (statsMonthsOpen.size === 12) {
-        statsMonthsOpen.clear();
-    } else {
-        for (let i = 0; i < 12; i++) statsMonthsOpen.add(i);
+monthsTag.addEventListener("dblclick", (e) => {
+    if (e.target.classList.contains("month-title")) {
+        if (statsMonthsOpen.size === 12) {
+            statsMonthsOpen.clear();
+        } else {
+            for (let i = 0; i < 12; i++) statsMonthsOpen.add(i);
+        }
+        renderYearView();
     }
-    renderYearView();
 });
 
 prevYearBtn.addEventListener("click", () => {
