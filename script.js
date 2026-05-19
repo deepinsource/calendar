@@ -358,15 +358,26 @@ document.querySelector("#deleteEmojiBtn").addEventListener("click", () => {
     closeEmojiPopupFn();
 });
 
+let clickTimer = null;
+
 monthsTag.addEventListener("click", (e) => {
     if (e.target.classList.contains("month-title")) {
-        const monthIdx = parseInt(e.target.dataset.month);
-        if (statsMonthsOpen.has(monthIdx)) {
-            statsMonthsOpen.delete(monthIdx);
-        } else {
-            statsMonthsOpen.add(monthIdx);
+        if (clickTimer) {
+            clearTimeout(clickTimer);
+            clickTimer = null;
+            return;
         }
-        renderYearView();
+        
+        clickTimer = setTimeout(() => {
+            const monthIdx = parseInt(e.target.dataset.month);
+            if (statsMonthsOpen.has(monthIdx)) {
+                statsMonthsOpen.delete(monthIdx);
+            } else {
+                statsMonthsOpen.add(monthIdx);
+            }
+            renderYearView();
+            clickTimer = null;
+        }, 250);
         return;
     }
     
@@ -399,6 +410,10 @@ monthsTag.addEventListener("click", (e) => {
 
 monthsTag.addEventListener("dblclick", (e) => {
     if (e.target.classList.contains("month-title")) {
+        if (clickTimer) {
+            clearTimeout(clickTimer);
+            clickTimer = null;
+        }
         if (statsMonthsOpen.size === 12) {
             statsMonthsOpen.clear();
         } else {
