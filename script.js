@@ -376,7 +376,7 @@ monthsTag.addEventListener("click", (e) => {
             }
             renderYearView();
             clickTimer = null;
-        }, 250);
+        }, 200);
         return;
     }
     
