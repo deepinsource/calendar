@@ -356,26 +356,15 @@ document.querySelector("#deleteEmojiBtn").addEventListener("click", () => {
     closeEmojiPopupFn();
 });
 
-let singleClickTimer = null;
-
 monthsTag.addEventListener("click", (e) => {
     if (e.target.classList.contains("month-title")) {
         const monthIdx = parseInt(e.target.dataset.month);
-        
-        if (singleClickTimer) {
-            clearTimeout(singleClickTimer);
-            singleClickTimer = null;
+        if (statsMonthsOpen.has(monthIdx)) {
+            statsMonthsOpen.delete(monthIdx);
+        } else {
+            statsMonthsOpen.add(monthIdx);
         }
-        
-        singleClickTimer = setTimeout(() => {
-            if (statsMonthsOpen.has(monthIdx)) {
-                statsMonthsOpen.delete(monthIdx);
-            } else {
-                statsMonthsOpen.add(monthIdx);
-            }
-            renderYearView();
-            singleClickTimer = null;
-        }, 250);
+        renderYearView();
         return;
     }
     
@@ -403,22 +392,6 @@ monthsTag.addEventListener("click", (e) => {
         commentInput.value = getComment(currYear, month, day);
         selectedDateEl.innerText = `${currYear}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         emojiPopup.classList.add("show");
-    }
-});
-
-monthsTag.addEventListener("dblclick", (e) => {
-    if (e.target.classList.contains("month-title")) {
-        if (singleClickTimer) {
-            clearTimeout(singleClickTimer);
-            singleClickTimer = null;
-        }
-        if (statsMonthsOpen.size === 12) {
-            statsMonthsOpen.clear();
-        } else {
-            for (let i = 0; i < 12; i++) statsMonthsOpen.add(i);
-        }
-        renderYearView();
-        e.preventDefault();
     }
 });
 
