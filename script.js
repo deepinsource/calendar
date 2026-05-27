@@ -303,6 +303,7 @@ emojiGrid.addEventListener("click", (e) => {
 
 const closeEmojiPopupFn = () => {
     emojiPopup.classList.remove("show");
+    document.body.classList.remove("no-scroll");
     selectedDayElement = null;
     selectedEmojiIndex = 0;
 };
@@ -379,6 +380,7 @@ monthsTag.addEventListener("click", (e) => {
             selectedDayElement = { dataset: { month: month, day: day } };
             selectedDateEl.innerText = `${currYear}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             emojiPopup.classList.add("show");
+            document.body.classList.add("no-scroll");
         }
         return;
     }
@@ -392,6 +394,7 @@ monthsTag.addEventListener("click", (e) => {
         commentInput.value = getComment(currYear, month, day);
         selectedDateEl.innerText = `${currYear}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         emojiPopup.classList.add("show");
+        document.body.classList.add("no-scroll");
     }
 });
 
@@ -425,14 +428,19 @@ const renderTaskList = () => {
 currentDate.addEventListener("click", () => {
     renderTaskList();
     taskPopup.classList.add("show");
+    document.body.classList.add("no-scroll");
 });
 
 closeTaskPopup.addEventListener("click", () => {
     taskPopup.classList.remove("show");
+    document.body.classList.remove("no-scroll");
 });
 
 taskPopup.addEventListener("click", (e) => {
-    if (e.target === taskPopup) taskPopup.classList.remove("show");
+    if (e.target === taskPopup) {
+        taskPopup.classList.remove("show");
+        document.body.classList.remove("no-scroll");
+    }
 });
 
 taskListEl.addEventListener("click", (e) => {
@@ -455,6 +463,7 @@ taskListEl.addEventListener("click", (e) => {
         currentTaskId = id;
         localStorage.setItem("currentTaskId", id);
         taskPopup.classList.remove("show");
+        document.body.classList.remove("no-scroll");
         const tasks = loadTasks();
         const task = tasks.find(t => t.id === id);
         if (task && task.lastEditYear) currYear = task.lastEditYear;
@@ -469,14 +478,19 @@ addTaskBtn.addEventListener("click", () => {
     taskColorInput.value = "#4b9cd3";
     deleteTaskBtn.style.display = "none";
     taskEditPopup.classList.add("show");
+    document.body.classList.add("no-scroll");
 });
 
 closeTaskEdit.addEventListener("click", () => {
     taskEditPopup.classList.remove("show");
+    document.body.classList.remove("no-scroll");
 });
 
 taskEditPopup.addEventListener("click", (e) => {
-    if (e.target === taskEditPopup) taskEditPopup.classList.remove("show");
+    if (e.target === taskEditPopup) {
+        taskEditPopup.classList.remove("show");
+        document.body.classList.remove("no-scroll");
+    }
 });
 
 saveTaskBtn.addEventListener("click", () => {
@@ -508,6 +522,7 @@ saveTaskBtn.addEventListener("click", () => {
 
     saveTasks(tasks);
     taskEditPopup.classList.remove("show");
+    document.body.classList.remove("no-scroll");
     renderTaskList();
     renderYearView();
 });
@@ -527,6 +542,7 @@ deleteTaskBtn.addEventListener("click", () => {
     }
     
     taskEditPopup.classList.remove("show");
+    document.body.classList.remove("no-scroll");
     renderTaskList();
     renderYearView();
 });
