@@ -273,7 +273,13 @@ body.no-scroll {
     border-color: #4b9cd3;
 }
 
-.save-emoji-btn {
+.popup-btn-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.save-btn {
     cursor: pointer;
     background: #4b9cd3;
     border: none;
@@ -283,16 +289,15 @@ body.no-scroll {
     color: white;
     font-weight: 500;
     font-size: 0.95rem;
-    width: 100%;
-    margin-top: 12px;
+    flex: 1;
     transition: all 0.3s;
 }
 
-.save-emoji-btn:hover {
+.save-btn:hover {
     background: #3a8bc4;
 }
 
-.delete-emoji-btn {
+.delete-btn {
     cursor: pointer;
     background: #e74c3c;
     border: none;
@@ -302,12 +307,11 @@ body.no-scroll {
     color: white;
     font-weight: 500;
     font-size: 0.95rem;
-    width: 100%;
-    margin-top: 8px;
+    flex: 1;
     transition: all 0.3s;
 }
 
-.delete-emoji-btn:hover {
+.delete-btn:hover {
     background: #c0392b;
 }
 
