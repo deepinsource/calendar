@@ -280,7 +280,8 @@ const renderEmojiGrid = (selectedIdx) => {
     let emojiTag = "";
     for (let i = 0; i < emojis.length; i++) {
         let selected = (i + 1 === selectedIdx) ? "selected" : "";
-        emojiTag += `<span data-index="${i + 1}" class="${selected}">${emojis[i]}</span>`;
+        let scale = selectedIdx === 0 ? 1 : (i + 1 === selectedIdx ? 1.2 : 0.9);
+        emojiTag += `<span data-index="${i + 1}" class="${selected}" style="transform:scale(${scale})">${emojis[i]}</span>`;
     }
     emojiGrid.innerHTML = emojiTag;
 };
