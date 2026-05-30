@@ -752,9 +752,8 @@ body.no-scroll {
     }
 
     .close-btn {
-        font-size: 1.6rem;
         top: 5px;
-        right: 10px;
+        right: 15px;
     }
 
     .comments-list {
@@ -817,7 +816,7 @@ body.no-scroll {
 
 .fab-btn {
     position: fixed;
-    bottom: 68px;
+    bottom: 96px;
     right: 24px;
     width: 56px;
     height: 56px;

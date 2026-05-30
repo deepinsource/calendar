@@ -367,7 +367,7 @@ monthsTag.addEventListener("click", (e) => {
         setTimeout(() => {
             const monthCard = document.querySelector(`.month-card[data-month="${monthIdx}"]`);
             if (monthCard) monthCard.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 50);
+        }, 1);
         return;
     }
     
