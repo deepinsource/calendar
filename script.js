@@ -426,7 +426,9 @@ const renderTaskList = () => {
     taskListEl.innerHTML = html;
 };
 
-currentDate.addEventListener("click", () => {
+const fabBtn = document.querySelector("#fabBtn");
+
+fabBtn.addEventListener("click", () => {
     renderTaskList();
     taskPopup.classList.add("show");
     document.body.classList.add("no-scroll");
