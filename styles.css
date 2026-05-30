@@ -577,6 +577,25 @@ body.no-scroll {
     padding: 4px 0;
 }
 
+.collapse-btn {
+    cursor: pointer;
+    background: rgba(75, 156, 211, 0.15);
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    padding: 4px 12px;
+    color: #4b9cd3;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 8px;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+.collapse-btn:hover {
+    background: rgba(75, 156, 211, 0.25);
+}
+
 .score-chart-container {
     margin-bottom: 10px;
 }

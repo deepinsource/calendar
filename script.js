@@ -174,6 +174,7 @@ const renderMonthStats = (i) => {
         <div class="stats-row"><span class="stats-label">平均得分</span><span class="stats-value">${avgScore}</span><span class="stats-pct">${avgScore}</span></div>
         <div class="stats-bar"><div class="stats-bar-fill" style="width:${avgScore}%;background:#e67e22;"></div></div>
         ${commentsHtml}
+        <button class="collapse-btn" data-month="${i}">收起</button>
     `;
 };
 
@@ -359,6 +360,13 @@ document.querySelector("#deleteEmojiBtn").addEventListener("click", () => {
 });
 
 monthsTag.addEventListener("click", (e) => {
+    if (e.target.classList.contains("collapse-btn")) {
+        const monthIdx = parseInt(e.target.dataset.month);
+        statsMonthsOpen.delete(monthIdx);
+        renderYearView();
+        return;
+    }
+    
     if (e.target.classList.contains("month-title")) {
         const monthIdx = parseInt(e.target.dataset.month);
         if (statsMonthsOpen.has(monthIdx)) {
