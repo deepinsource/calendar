@@ -805,7 +805,8 @@ body.no-scroll {
     border-radius: 50%;
     background: #4b9cd3;
     color: white;
-    font-size: 1.8rem;
+    font-size: 3.6rem;
+    font-weight: 900;
     border: none;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
