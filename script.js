@@ -364,6 +364,10 @@ monthsTag.addEventListener("click", (e) => {
         const monthIdx = parseInt(e.target.dataset.month);
         statsMonthsOpen.delete(monthIdx);
         renderYearView();
+        setTimeout(() => {
+            const monthCard = document.querySelector(`.month-card[data-month="${monthIdx}"]`);
+            if (monthCard) monthCard.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 50);
         return;
     }
     
