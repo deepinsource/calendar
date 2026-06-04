@@ -335,7 +335,7 @@ const closeEmojiPopupFn = (save = true) => {
 
 closeEmojiPopup.addEventListener("click", () => closeEmojiPopupFn(false));
 emojiPopup.addEventListener("click", (e) => {
-    if (e.target === emojiPopup) closeEmojiPopupFn(false);
+    if (e.target === emojiPopup) closeEmojiPopupFn(true);
 });
 
 document.querySelector("#saveEmojiBtn").addEventListener("click", () => closeEmojiPopupFn(true));
