@@ -325,20 +325,20 @@ const saveEmojiAndComment = () => {
     renderYearView();
 };
 
-const closeEmojiPopupFn = () => {
-    saveEmojiAndComment();
+const closeEmojiPopupFn = (save = true) => {
+    if (save) saveEmojiAndComment();
     emojiPopup.classList.remove("show");
     document.body.classList.remove("no-scroll");
     selectedDayElement = null;
     selectedEmojiIndex = 0;
 };
 
-closeEmojiPopup.addEventListener("click", closeEmojiPopupFn);
+closeEmojiPopup.addEventListener("click", () => closeEmojiPopupFn(false));
 emojiPopup.addEventListener("click", (e) => {
-    if (e.target === emojiPopup) closeEmojiPopupFn();
+    if (e.target === emojiPopup) closeEmojiPopupFn(false);
 });
 
-document.querySelector("#saveEmojiBtn").addEventListener("click", saveEmojiAndComment);
+document.querySelector("#saveEmojiBtn").addEventListener("click", () => closeEmojiPopupFn(true));
 
 document.querySelector("#deleteEmojiBtn").addEventListener("click", () => {
     if (!selectedDayElement) return;
