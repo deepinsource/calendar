@@ -304,6 +304,25 @@ emojiGrid.addEventListener("click", (e) => {
 });
 
 const closeEmojiPopupFn = () => {
+    if (selectedDayElement) {
+        const month = parseInt(selectedDayElement.dataset.month);
+        const day = parseInt(selectedDayElement.dataset.day);
+        if (!isNaN(day)) {
+            if (selectedEmojiIndex === 0) {
+                const tasks = loadTasks();
+                const task = tasks.find(t => t.id === currentTaskId);
+                if (task) {
+                    const key = getDateKey(currYear, month, day);
+                    delete task.emojis[key];
+                    saveTasks(tasks);
+                }
+            } else {
+                saveEmojiIndex(currYear, month, day, selectedEmojiIndex);
+            }
+            saveComment(currYear, month, day, commentInput.value);
+            renderYearView();
+        }
+    }
     emojiPopup.classList.remove("show");
     document.body.classList.remove("no-scroll");
     selectedDayElement = null;
