@@ -303,32 +303,6 @@ emojiGrid.addEventListener("click", (e) => {
     }
 });
 
-const closeEmojiPopupFn = () => {
-    if (selectedDayElement) {
-        const month = parseInt(selectedDayElement.dataset.month);
-        const day = parseInt(selectedDayElement.dataset.day);
-        if (!isNaN(day)) {
-            if (selectedEmojiIndex === 0) {
-                const tasks = loadTasks();
-                const task = tasks.find(t => t.id === currentTaskId);
-                if (task) {
-                    const key = getDateKey(currYear, month, day);
-                    delete task.emojis[key];
-                    saveTasks(tasks);
-                }
-            } else {
-                saveEmojiIndex(currYear, month, day, selectedEmojiIndex);
-            }
-            saveComment(currYear, month, day, commentInput.value);
-            renderYearView();
-        }
-    }
-    emojiPopup.classList.remove("show");
-    document.body.classList.remove("no-scroll");
-    selectedDayElement = null;
-    selectedEmojiIndex = 0;
-};
-
 const saveEmojiAndComment = () => {
     if (!selectedDayElement) return;
     const month = parseInt(selectedDayElement.dataset.month);
@@ -349,7 +323,14 @@ const saveEmojiAndComment = () => {
     
     saveComment(currYear, month, day, commentInput.value);
     renderYearView();
-    closeEmojiPopupFn();
+};
+
+const closeEmojiPopupFn = () => {
+    saveEmojiAndComment();
+    emojiPopup.classList.remove("show");
+    document.body.classList.remove("no-scroll");
+    selectedDayElement = null;
+    selectedEmojiIndex = 0;
 };
 
 closeEmojiPopup.addEventListener("click", closeEmojiPopupFn);
