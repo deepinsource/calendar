@@ -158,6 +158,8 @@ body.no-scroll {
 .mini-days span.active {
     color: #fff;
     background: #4b9cd3;
+    font-size: 2rem;
+    font-weight: bolder;
 }
 
 .mini-days span.empty {
