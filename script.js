@@ -356,7 +356,7 @@ document.querySelector("#deleteEmojiBtn").addEventListener("click", () => {
     }
     
     renderYearView();
-    closeEmojiPopupFn();
+    closeEmojiPopupFn(false);
 });
 
 monthsTag.addEventListener("click", (e) => {
