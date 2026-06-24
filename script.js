@@ -22,12 +22,13 @@ importBtn = document.querySelector("#importBtn"),
 importFile = document.querySelector("#importFile");
 
 let date = new Date(),
-currYear = date.getFullYear(),
-selectedDayElement = null,
-selectedEmojiIndex = 0,
-currentTaskId = null,
-editingTaskId = null,
-statsMonthsOpen = new Set();
+    currYear = date.getFullYear(),
+    selectedDayElement = null,
+    selectedEmojiIndex = 0,
+    currentTaskId = null,
+    editingTaskId = null,
+    statsMonthsOpen = new Set(),
+    autoSaveTimer = null;
 
 const months = ["一月", "二月", "三月", "四月", "五月", "六月", "七月",
               "八月", "九月", "十月", "十一月", "十二月"];
@@ -326,6 +327,7 @@ const saveEmojiAndComment = () => {
 };
 
 const closeEmojiPopupFn = (save = true) => {
+    clearTimeout(autoSaveTimer);
     if (save) saveEmojiAndComment();
     emojiPopup.classList.remove("show");
     document.body.classList.remove("no-scroll");
@@ -339,6 +341,11 @@ emojiPopup.addEventListener("click", (e) => {
 });
 
 document.querySelector("#saveEmojiBtn").addEventListener("click", () => closeEmojiPopupFn(true));
+
+commentInput.addEventListener("input", () => {
+    clearTimeout(autoSaveTimer);
+    autoSaveTimer = setTimeout(() => saveEmojiAndComment(), 3000);
+});
 
 document.querySelector("#deleteEmojiBtn").addEventListener("click", () => {
     if (!selectedDayElement) return;
