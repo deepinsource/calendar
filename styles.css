@@ -52,7 +52,7 @@ body.no-scroll {
 
 .nav-btn {
     cursor: pointer;
-    background: transparent;
+    background: none;
     border: none;
     outline: none;
     border-radius: 50%;
@@ -65,9 +65,6 @@ body.no-scroll {
     transition: all 0.3s;
     flex-shrink: 0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    -webkit-tap-highlight-color: transparent;
-    -webkit-appearance: none;
-    appearance: none;
 }
 
 .nav-btn img {
