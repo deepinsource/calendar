@@ -974,14 +974,14 @@ body.no-scroll {
 
 .search-result-date {
     color: #888;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     flex-shrink: 0;
     min-width: 80px;
 }
 
 .search-result-task {
     color: #4b9cd3;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     flex-shrink: 0;
 }
 
