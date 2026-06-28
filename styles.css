@@ -377,8 +377,8 @@ body.no-scroll {
 }
 
 .close-btn img {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
 }
 
 .close-btn:hover {
@@ -507,6 +507,16 @@ body.no-scroll {
     font-size: 0.95rem;
     width: 100%;
     transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.add-task-btn img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
 }
 
 .add-task-btn:hover {
