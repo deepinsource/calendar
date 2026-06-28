@@ -24,7 +24,7 @@ importFile = document.querySelector("#importFile"),
 searchBtn = document.querySelector("#searchBtn"),
 searchPopup = document.querySelector("#searchPopup"),
 searchInput = document.querySelector("#searchInput"),
-searchSubmitBtn = document.querySelector("#searchSubmitBtn"),
+
 searchResults = document.querySelector("#searchResults"),
 closeSearchPopup = document.querySelector("#closeSearchPopup");
 
@@ -734,6 +734,12 @@ const performSearch = () => {
             }
         }
     }
+    results.sort((a, b) => {
+        if (a.taskName !== b.taskName) return a.taskName.localeCompare(b.taskName);
+        if (a.year !== b.year) return b.year - a.year;
+        if (a.month !== b.month) return a.month - b.month;
+        return a.day - b.day;
+    });
     if (!results.length) {
         searchResults.innerHTML = `<div class="search-empty">无结果</div>`;
         return;
@@ -743,13 +749,14 @@ const performSearch = () => {
         const lines = r.comment.split("\n");
         const matchLine = lines.find(l => l.toLowerCase().includes(query)) || lines[0];
         const highlighted = matchLine.replace(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark>$1</mark>');
-        return `<div class="search-result-item" data-year="${r.year}" data-month="${r.month}" data-day="${r.day}" data-task-id="${r.taskId}"><span class="search-result-date">${dateStr}</span><span class="search-result-task">${r.taskName}</span><span class="search-result-text">${highlighted}</span></div>`;
+        return `<div class="search-result-item" data-year="${r.year}" data-month="${r.month}" data-day="${r.day}" data-task-id="${r.taskId}"><span class="search-result-task">${r.taskName}</span><span class="search-result-date">${dateStr}</span><span class="search-result-text">${highlighted}</span></div>`;
     }).join("");
 };
 
-searchSubmitBtn.addEventListener("click", performSearch);
-searchInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") performSearch();
+let searchDebounce = null;
+searchInput.addEventListener("input", () => {
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(performSearch, 300);
 });
 
 searchResults.addEventListener("click", (e) => {

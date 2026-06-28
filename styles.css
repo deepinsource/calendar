@@ -936,20 +936,6 @@ body.no-scroll {
     border-color: #4b9cd3;
 }
 
-.search-submit-btn {
-    padding: 8px 16px;
-    background: #4b9cd3;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    white-space: nowrap;
-}
-
-.search-submit-btn:hover {
-    background: #3a8bc4;
-}
 
 .search-results {
     overflow-y: auto;
