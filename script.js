@@ -740,7 +740,10 @@ const performSearch = () => {
     }
     searchResults.innerHTML = results.map(r => {
         const dateStr = `${r.year}-${String(r.month + 1).padStart(2, '0')}-${String(r.day).padStart(2, '0')}`;
-        return `<div class="search-result-item" data-year="${r.year}" data-month="${r.month}" data-day="${r.day}" data-task-id="${r.taskId}"><span class="search-result-date">${dateStr}</span><span class="search-result-task">${r.taskName}</span><span class="search-result-text">${r.comment}</span></div>`;
+        const lines = r.comment.split("\n");
+        const matchLine = lines.find(l => l.toLowerCase().includes(query)) || lines[0];
+        const highlighted = matchLine.replace(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark>$1</mark>');
+        return `<div class="search-result-item" data-year="${r.year}" data-month="${r.month}" data-day="${r.day}" data-task-id="${r.taskId}"><span class="search-result-date">${dateStr}</span><span class="search-result-task">${r.taskName}</span><span class="search-result-text">${highlighted}</span></div>`;
     }).join("");
 };
 

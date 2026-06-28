@@ -980,9 +980,15 @@ body.no-scroll {
 .search-result-text {
     font-size: 0.9rem;
     color: #333;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.search-result-text mark {
+    background: #ffe066;
+    color: #333;
+    padding: 0 2px;
+    border-radius: 2px;
 }
 
 .search-empty {
