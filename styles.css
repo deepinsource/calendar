@@ -52,7 +52,7 @@ body.no-scroll {
 
 .nav-btn {
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.8);
+    background: none;
     border: none;
     outline: none;
     border-radius: 50%;
@@ -64,14 +64,21 @@ body.no-scroll {
     color: #676767;
     transition: all 0.3s;
     flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.nav-btn img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
 }
 
 .nav-btn:active {
-    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0.95);
 }
 
 .nav-btn:hover {
-    background: rgba(255, 255, 255, 0.95);
+    transform: scale(1.1);
     color: #333;
 }
 
@@ -136,7 +143,7 @@ body.no-scroll {
     border: none;
     background: none;
     color: #676767;
-    font-size: 1.1rem;
+    font-size: 1rem;
     cursor: pointer;
     text-align: left;
     white-space: nowrap;
@@ -367,11 +374,15 @@ body.no-scroll {
     right: 15px;
     background: none;
     border: none;
-    font-size: 2rem;
     color: #676767;
     cursor: pointer;
     transition: all 0.3s;
     z-index: 10;
+}
+
+.close-btn img {
+    width: 24px;
+    height: 24px;
 }
 
 .close-btn:hover {
