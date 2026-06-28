@@ -20,7 +20,13 @@ deleteTaskBtn = document.querySelector("#deleteTaskBtn"),
 exportBtn = document.querySelector("#exportBtn"),
 importBtn = document.querySelector("#importBtn"),
 dataBtn = document.querySelector("#dataBtn"),
-importFile = document.querySelector("#importFile");
+importFile = document.querySelector("#importFile"),
+searchBtn = document.querySelector("#searchBtn"),
+searchPopup = document.querySelector("#searchPopup"),
+searchInput = document.querySelector("#searchInput"),
+searchSubmitBtn = document.querySelector("#searchSubmitBtn"),
+searchResults = document.querySelector("#searchResults"),
+closeSearchPopup = document.querySelector("#closeSearchPopup");
 
 let date = new Date(),
     currYear = date.getFullYear(),
@@ -688,6 +694,93 @@ importFile.addEventListener("change", (e) => {
     };
     reader.readAsText(file);
     importFile.value = "";
+});
+
+const openSearchPopup = () => {
+    searchPopup.classList.add("show");
+    document.body.classList.add("no-scroll");
+
+    setTimeout(() => searchInput.focus(), 100);
+};
+
+const closeSearchPopupFn = () => {
+    searchPopup.classList.remove("show");
+    document.body.classList.remove("no-scroll");
+};
+
+searchBtn.addEventListener("click", openSearchPopup);
+closeSearchPopup.addEventListener("click", closeSearchPopupFn);
+searchPopup.addEventListener("click", (e) => {
+    if (e.target === searchPopup) closeSearchPopupFn();
+});
+
+const performSearch = () => {
+    const query = searchInput.value.trim().toLowerCase();
+    if (!query) {
+        searchResults.innerHTML = "";
+        return;
+    }
+    const tasks = loadTasks();
+    const results = [];
+    for (const task of tasks) {
+        if (!task.comments) continue;
+        for (const [key, comment] of Object.entries(task.comments)) {
+            if (comment.toLowerCase().includes(query)) {
+                const parts = key.split("-");
+                const year = parseInt(parts[0]);
+                const month = parseInt(parts[1]);
+                const day = parseInt(parts[2]);
+                results.push({ year, month, day, comment, taskId: task.id, taskName: task.name });
+            }
+        }
+    }
+    if (!results.length) {
+        searchResults.innerHTML = `<div class="search-empty">无结果</div>`;
+        return;
+    }
+    searchResults.innerHTML = results.map(r => {
+        const dateStr = `${r.year}-${String(r.month + 1).padStart(2, '0')}-${String(r.day).padStart(2, '0')}`;
+        return `<div class="search-result-item" data-year="${r.year}" data-month="${r.month}" data-day="${r.day}" data-task-id="${r.taskId}"><span class="search-result-date">${dateStr}</span><span class="search-result-task">${r.taskName}</span><span class="search-result-text">${r.comment}</span></div>`;
+    }).join("");
+};
+
+searchSubmitBtn.addEventListener("click", performSearch);
+searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") performSearch();
+});
+
+searchResults.addEventListener("click", (e) => {
+    const item = e.target.closest(".search-result-item");
+    if (!item) return;
+    const year = parseInt(item.dataset.year);
+    const month = parseInt(item.dataset.month);
+    const day = parseInt(item.dataset.day);
+    const taskId = item.dataset.taskId;
+    closeSearchPopupFn();
+    if (taskId && taskId !== currentTaskId) {
+        currentTaskId = taskId;
+        localStorage.setItem("currentTaskId", currentTaskId);
+    }
+    if (year !== currYear) {
+        currYear = year;
+    }
+    if (!statsMonthsOpen.has(month)) {
+        statsMonthsOpen.add(month);
+    }
+    renderYearView();
+    setTimeout(() => {
+        const monthCard = document.querySelector(`.month-card[data-month="${month}"]`);
+        if (!monthCard) return;
+        monthCard.scrollIntoView({ behavior: "smooth", block: "start" });
+        setTimeout(() => {
+            const commentItem = monthCard.querySelector(`.comment-item[data-month="${month}"][data-day="${day}"]`);
+            if (commentItem) {
+                commentItem.scrollIntoView({ behavior: "smooth", block: "start" });
+                commentItem.classList.add("highlight");
+                setTimeout(() => commentItem.classList.remove("highlight"), 2000);
+            }
+        }, 300);
+    }, 100);
 });
 
 

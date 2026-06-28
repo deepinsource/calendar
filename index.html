@@ -19,6 +19,7 @@
             <button id="prevYear" class="nav-btn">&lt;</button>
             <div id="currentDate" class="io-btn"></div>
             <button id="nextYear" class="nav-btn">&gt;</button>
+            <button id="searchBtn" class="nav-btn search-btn">🔍</button>
             <input type="file" id="importFile" accept=".json" style="display:none;">
         </div>
         <div class="calendar-body">
@@ -72,6 +73,19 @@
     </div>
 
     <button id="fabBtn" class="fab-btn">⚑</button>
+
+    <div class="search-popup" id="searchPopup">
+        <div class="search-popup-content">
+            <div class="search-popup-header">
+                <button class="close-btn" id="closeSearchPopup">&times;</button>
+                <div class="search-input-row">
+                    <input type="text" id="searchInput" placeholder="搜索备注...">
+                    <button id="searchSubmitBtn" class="search-submit-btn">搜索</button>
+                </div>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
