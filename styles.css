@@ -100,6 +100,11 @@ body.no-scroll {
     flex-shrink: 0;
 }
 
+.data-btn {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
 .data-dropdown-menu {
     display: none;
     position: absolute;
@@ -110,7 +115,7 @@ body.no-scroll {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     z-index: 100;
-    min-width: 80px;
+    min-width: 100px;
 }
 
 .data-dropdown.open .data-dropdown-menu {
@@ -120,11 +125,11 @@ body.no-scroll {
 .data-dropdown-item {
     display: block;
     width: 100%;
-    padding: 10px 16px;
+    padding: 20px 24px;
     border: none;
     background: none;
     color: #676767;
-    font-size: 0.85rem;
+    font-size: 1.2rem;
     cursor: pointer;
     text-align: left;
     white-space: nowrap;
