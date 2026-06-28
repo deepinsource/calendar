@@ -19,6 +19,7 @@ saveTaskBtn = document.querySelector("#saveTaskBtn"),
 deleteTaskBtn = document.querySelector("#deleteTaskBtn"),
 exportBtn = document.querySelector("#exportBtn"),
 importBtn = document.querySelector("#importBtn"),
+dataBtn = document.querySelector("#dataBtn"),
 importFile = document.querySelector("#importFile");
 
 let date = new Date(),
@@ -567,6 +568,15 @@ deleteTaskBtn.addEventListener("click", () => {
     document.body.classList.remove("no-scroll");
     renderTaskList();
     renderYearView();
+});
+
+dataBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dataBtn.parentElement.classList.toggle("open");
+});
+
+document.addEventListener("click", () => {
+    document.querySelector(".data-dropdown")?.classList.remove("open");
 });
 
 exportBtn.addEventListener("click", () => {

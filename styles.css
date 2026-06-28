@@ -95,6 +95,46 @@ body.no-scroll {
     color: #333;
 }
 
+.data-dropdown {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.data-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 100;
+    min-width: 80px;
+}
+
+.data-dropdown.open .data-dropdown-menu {
+    display: block;
+}
+
+.data-dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+    border: none;
+    background: none;
+    color: #676767;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.data-dropdown-item:hover {
+    background: rgba(75, 156, 211, 0.1);
+    color: #333;
+}
+
 .calendar-body {
     padding: 20px;
 }
