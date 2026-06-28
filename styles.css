@@ -815,7 +815,7 @@ body.no-scroll {
     }
 
     .close-btn {
-        top: 5px;
+        top: 10px;
         right: 15px;
     }
 
@@ -984,9 +984,8 @@ body.no-scroll {
 
 .search-result-date {
     color: #888;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     flex-shrink: 0;
-    min-width: 80px;
 }
 
 .search-result-task {
