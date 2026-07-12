@@ -21,19 +21,19 @@ body.no-scroll {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
+    border-radius: 15px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    padding: 30px;
+    padding: 15px 0;
     width: 100%;
     max-width: 1200px;
-    margin: 10px;
+    margin: 5px;
 }
 
 .months {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 15px;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-top: 0;
 }
 
 .header {
@@ -45,7 +45,9 @@ body.no-scroll {
 }
 
 #currentDate {
-    font-size: 1.25rem;
+    font-size: 0.95rem;
+    padding: 14px;
+    letter-spacing: 0.5px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -56,8 +58,8 @@ body.no-scroll {
     border: none;
     outline: none;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,10 +90,10 @@ body.no-scroll {
     border: none;
     outline: none;
     border-radius: 10px;
-    padding: 8px 12px;
+    padding: 5px 8px;
     color: #676767;
     font-weight: 500;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     transition: all 0.3s;
     flex-shrink: 0;
     white-space: nowrap;
@@ -156,17 +158,16 @@ body.no-scroll {
 }
 
 .calendar-body {
-    padding: 20px;
+    padding: 10px;
 }
 
 .month-card {
     background: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     transition: all 0.3s;
-    padding: 10px;
+    padding: 6px;
+    margin: 5px 0;
 }
-
-
 
 .month-card:hover {
     background: white;
@@ -174,9 +175,9 @@ body.no-scroll {
 
 .month-title {
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 500;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     letter-spacing: 1px;
 }
 
@@ -190,7 +191,7 @@ body.no-scroll {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #333;
     aspect-ratio: 1/1;
     border-radius: 4px;
@@ -215,7 +216,7 @@ body.no-scroll {
 }
 
 .mini-days span.has-emoji {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 }
 
 .emoji-popup {
@@ -240,9 +241,9 @@ body.no-scroll {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     border-radius: 20px;
-    padding: 25px;
-    max-width: 400px;
-    width: 90%;
+    padding: 15px;
+    max-width: none;
+    width: 95%;
     position: relative;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
@@ -260,16 +261,16 @@ body.no-scroll {
 .emoji-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
+    gap: 4px;
 }
 
 .emoji-grid span {
     cursor: pointer;
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px;
+    padding: 5px;
     border-radius: 10px;
     transition: all 0.2s;
     user-select: none;
@@ -408,9 +409,9 @@ body.no-scroll {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     border-radius: 20px;
-    padding: 25px;
-    max-width: 400px;
-    width: 90%;
+    padding: 15px;
+    max-width: none;
+    width: 95%;
     position: relative;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     max-height: 80vh;
@@ -545,9 +546,9 @@ body.no-scroll {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     border-radius: 20px;
-    padding: 25px;
-    max-width: 380px;
-    width: 90%;
+    padding: 15px;
+    max-width: none;
+    width: 95%;
     position: relative;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
@@ -711,8 +712,8 @@ body.no-scroll {
 
 .comments-list {
     margin-top: 10px;
-    max-height: 150px;
-    overflow-y: auto;
+    max-height: none;
+    overflow-y: visible;
 }
 
 .comment-item {
@@ -723,18 +724,21 @@ body.no-scroll {
     align-items: flex-start;
 }
 
-
 .comment-date {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: #888;
     flex-shrink: 0;
     line-height: 1.5;
+    display: flex;
+    align-items: center;
 }
 
 .comment-emoji {
-    font-size: 1rem;
+    font-size: 1.2rem;
     flex-shrink: 0;
     line-height: 1.5;
+    display: flex;
+    align-items: center;
 }
 
 .comment-text {
@@ -742,139 +746,7 @@ body.no-scroll {
     color: #333;
     white-space: pre-wrap;
     line-height: 1.5;
-    margin-top: 2px;
-}
-
-@media (max-width: 480px) {
-    .calendar-container {
-        padding: 15px 0;
-        margin: 5px;
-        border-radius: 15px;
-    }
-
-    #currentDate {
-        font-size: 0.95rem;
-        padding: 14px;
-        letter-spacing: 0.5px;
-    }
-
-    .nav-btn {
-        width: 32px;
-        height: 32px;
-    }
-
-    .io-btn {
-        padding: 5px 8px;
-        font-size: 0.75rem;
-    }
-
-    .calendar-body {
-        padding: 10px;
-    }
-
-    .months {
-        grid-template-columns: 1fr;
-        gap: 6px;
-        margin-top: 0;
-    }
-
-    .month-card {
-        padding: 6px;
-        margin: 5px 0;
-    }
-
-    .month-title {
-        font-size: 1.2rem;
-        margin-bottom: 4px;
-    }
-
-    .mini-days span {
-        font-size: 1.3rem;
-    }
-
-    .mini-days span.has-emoji {
-        font-size: 1.6rem;
-    }
-
-    .emoji-popup-content,
-    .task-popup-content,
-    .task-edit-content {
-        padding: 15px;
-        width: 95%;
-        max-width: none;
-    }
-
-    .emoji-grid {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 4px;
-    }
-
-    .emoji-grid span {
-        font-size: 1.8rem;
-        padding: 5px;
-    }
-
-    .close-btn {
-        top: 10px;
-        right: 15px;
-    }
-
-    .comments-list {
-        max-height: none;
-        overflow-y: visible;
-    }
-
-    .comment-date,
-    .comment-emoji {
-        font-size: 1.2rem;
-        display: flex;
-        align-items: center;
-    }
-
-    .comment-text {
-        margin-top: 3px;
-    }
-
-}
-
-@media (max-width: 360px) {
-    .calendar-container {
-        padding: 0 10px 10px 10px;
-    }
-
-    #currentDate {
-        font-size: 0.8rem;
-        padding: 13px;
-    }
-
-    .nav-btn {
-        width: 28px;
-        height: 28px;
-    }
-
-    .months {
-        grid-template-columns: 1fr;
-        gap: 5px;
-    }
-
-    .mini-days span {
-        font-size: 1.4rem;
-    }
-
-    .mini-days span.has-emoji {
-        font-size: 1.8rem;
-    }
-
-    .comment-date,
-    .comment-emoji {
-        font-size: 1.3rem;
-        display: flex;
-        align-items: center;
-    }
-
-    .comment-text {
-        margin-top: 3px;
-    }
+    margin-top: 3px;
 }
 
 .fab-btn {
@@ -962,7 +834,6 @@ body.no-scroll {
 .search-input-row input:focus {
     border-color: #4b9cd3;
 }
-
 
 .search-results {
     overflow-y: auto;
