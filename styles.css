@@ -300,12 +300,37 @@ body.no-scroll {
     margin-top: 12px;
 }
 
+.comment-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
 .comment-section label {
     font-size: 1.1rem;
     color: #555;
     font-weight: 500;
     display: block;
     margin-bottom: 4px;
+}
+
+.import-last-btn {
+    cursor: pointer;
+    background: rgba(75, 156, 211, 0.15);
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    padding: 4px 12px;
+    color: #4b9cd3;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    margin-bottom: 4px;
+}
+
+.import-last-btn:hover {
+    background: rgba(75, 156, 211, 0.25);
 }
 
 .comment-section textarea {

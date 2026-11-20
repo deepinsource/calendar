@@ -26,7 +26,8 @@ searchPopup = document.querySelector("#searchPopup"),
 searchInput = document.querySelector("#searchInput"),
 
 searchResults = document.querySelector("#searchResults"),
-closeSearchPopup = document.querySelector("#closeSearchPopup");
+closeSearchPopup = document.querySelector("#closeSearchPopup"),
+importLastBtn = document.querySelector("#importLastBtn");
 
 let date = new Date(),
     currYear = date.getFullYear(),
@@ -332,6 +333,38 @@ const saveEmojiAndComment = () => {
     saveComment(currYear, month, day, commentInput.value);
     renderYearView();
 };
+
+const importLastContent = () => {
+    if (!selectedDayElement) return;
+    const month = parseInt(selectedDayElement.dataset.month);
+    const day = parseInt(selectedDayElement.dataset.day);
+    if (isNaN(day)) return;
+
+    const task = getCurrentTask();
+    if (!task.comments) return;
+    const currentTimestamp = new Date(currYear, month, day).getTime();
+
+    let latest = null;
+    for (const [key, comment] of Object.entries(task.comments)) {
+        if (!comment) continue;
+        const [y, m, d] = key.split("-").map(Number);
+        const timestamp = new Date(y, m, d).getTime();
+        if (timestamp >= currentTimestamp) continue;
+        if (!latest || timestamp > latest.timestamp) latest = { timestamp, comment };
+    }
+
+    if (!latest) {
+        alert("没有更早的备注内容");
+        return;
+    }
+    if (commentInput.value.trim() && commentInput.value.trim() !== latest.comment
+        && !confirm("当前备注已有内容，是否用上次的备注替换？")) return;
+
+    commentInput.value = latest.comment;
+    commentInput.dispatchEvent(new Event("input"));
+};
+
+importLastBtn.addEventListener("click", importLastContent);
 
 const closeEmojiPopupFn = (save = true) => {
     clearTimeout(autoSaveTimer);
