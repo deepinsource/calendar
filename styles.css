@@ -315,7 +315,11 @@ body.no-scroll {
     margin-bottom: 4px;
 }
 
-.import-last-btn {
+.import-menu-wrap {
+    position: relative;
+}
+
+.import-content-btn {
     cursor: pointer;
     background: rgba(75, 156, 211, 0.15);
     border: none;
@@ -329,8 +333,67 @@ body.no-scroll {
     margin-bottom: 4px;
 }
 
-.import-last-btn:hover {
+.import-content-btn:hover {
     background: rgba(75, 156, 211, 0.25);
+}
+
+.import-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    width: 260px;
+    max-height: 260px;
+    overflow-y: auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 20;
+}
+
+.import-menu.show {
+    display: block;
+}
+
+.import-menu-item {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    border-bottom: 1px solid #f5f5f5;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: #333;
+    font-family: inherit;
+}
+
+.import-menu-item:last-child {
+    border-bottom: none;
+}
+
+.import-menu-item:hover {
+    background: rgba(75, 156, 211, 0.08);
+}
+
+.import-menu-date {
+    color: #4b9cd3;
+    flex-shrink: 0;
+}
+
+.import-menu-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.import-menu-empty {
+    padding: 12px;
+    text-align: center;
+    color: #999;
+    font-size: 0.85rem;
 }
 
 .comment-section textarea {

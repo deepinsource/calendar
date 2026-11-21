@@ -27,7 +27,8 @@ searchInput = document.querySelector("#searchInput"),
 
 searchResults = document.querySelector("#searchResults"),
 closeSearchPopup = document.querySelector("#closeSearchPopup"),
-importLastBtn = document.querySelector("#importLastBtn");
+importContentBtn = document.querySelector("#importContentBtn"),
+importMenu = document.querySelector("#importMenu");
 
 let date = new Date(),
     currYear = date.getFullYear(),
@@ -334,39 +335,77 @@ const saveEmojiAndComment = () => {
     renderYearView();
 };
 
-const importLastContent = () => {
-    if (!selectedDayElement) return;
+const escapeHtml = (str) => str.replace(/[&<>"']/g, ch => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+}[ch]));
+
+const getPastComments = () => {
+    if (!selectedDayElement) return [];
     const month = parseInt(selectedDayElement.dataset.month);
     const day = parseInt(selectedDayElement.dataset.day);
-    if (isNaN(day)) return;
+    if (isNaN(day)) return [];
 
     const task = getCurrentTask();
-    if (!task.comments) return;
+    if (!task.comments) return [];
     const currentTimestamp = new Date(currYear, month, day).getTime();
 
-    let latest = null;
+    const pastComments = [];
     for (const [key, comment] of Object.entries(task.comments)) {
-        if (!comment) continue;
+        if (!comment || !comment.trim()) continue;
         const [y, m, d] = key.split("-").map(Number);
         const timestamp = new Date(y, m, d).getTime();
         if (timestamp >= currentTimestamp) continue;
-        if (!latest || timestamp > latest.timestamp) latest = { timestamp, comment };
+        pastComments.push({ key, comment, timestamp });
     }
 
-    if (!latest) {
-        alert("没有更早的备注内容");
-        return;
-    }
-    if (commentInput.value.trim() && commentInput.value.trim() !== latest.comment
-        && !confirm("当前备注已有内容，是否用上次的备注替换？")) return;
-
-    commentInput.value = latest.comment;
-    commentInput.dispatchEvent(new Event("input"));
+    pastComments.sort((a, b) => b.timestamp - a.timestamp);
+    return pastComments.slice(0, 8);
 };
 
-importLastBtn.addEventListener("click", importLastContent);
+const closeImportMenu = () => importMenu.classList.remove("show");
+
+const toggleImportMenu = () => {
+    if (importMenu.classList.contains("show")) {
+        closeImportMenu();
+        return;
+    }
+
+    const pastComments = getPastComments();
+    if (!pastComments.length) {
+        importMenu.innerHTML = `<div class="import-menu-empty">没有更早的备注内容</div>`;
+    } else {
+        importMenu.innerHTML = pastComments.map(({ key, comment }) => {
+            const [y, m, d] = key.split("-").map(Number);
+            const dateStr = `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+            const firstLine = comment.split("\n")[0].trim() || comment.trim();
+            return `<button class="import-menu-item" data-key="${key}"><span class="import-menu-date">${dateStr}</span><span class="import-menu-line">${escapeHtml(firstLine)}</span></button>`;
+        }).join("");
+    }
+    importMenu.classList.add("show");
+};
+
+importContentBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleImportMenu();
+});
+
+importMenu.addEventListener("click", (e) => {
+    const item = e.target.closest(".import-menu-item");
+    if (!item) return;
+    const comment = getCurrentTask().comments?.[item.dataset.key] || "";
+    if (!comment) return;
+
+    commentInput.value = comment;
+    commentInput.dispatchEvent(new Event("input"));
+    closeImportMenu();
+});
+
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".import-menu-wrap")) closeImportMenu();
+});
 
 const closeEmojiPopupFn = (save = true) => {
+    closeImportMenu();
     clearTimeout(autoSaveTimer);
     if (save) saveEmojiAndComment();
     emojiPopup.classList.remove("show");
