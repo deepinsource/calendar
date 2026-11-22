@@ -359,7 +359,17 @@ const getPastComments = () => {
     }
 
     pastComments.sort((a, b) => b.timestamp - a.timestamp);
-    return pastComments.slice(0, 8);
+    const seen = new Set();
+    const uniqueComments = [];
+    for (const item of pastComments) {
+        const content = item.comment.trim();
+        if (seen.has(content)) continue;
+
+        seen.add(content);
+        uniqueComments.push(item);
+        if (seen.size === 8) break;
+    }
+    return uniqueComments;
 };
 
 const closeImportMenu = () => importMenu.classList.remove("show");
